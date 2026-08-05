@@ -14,7 +14,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>__NAME__ Review (2026): Is It Worth $__PRICE__/mo? | EcomStack AI</title>
-    <meta name="description" content="An in-depth review of __NAME__. We analyze its AI capabilities, pricing, workflows, and integrations for modern businesses.">
+    <meta name="description" content="An in-depth review of __NAME__. We analyze its AI capabilities, pricing, workflows, and integrations for modern E-commerce and Meta/TikTok Ad buyers.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -32,13 +32,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .logo-icon { width: 2.25rem; height: 2.25rem; background: var(--indigo-600); color: white; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
         
         nav { display: flex; gap: 1.75rem; align-items: center; font-weight: 500; font-size: 0.875rem; color: var(--slate-700); }
-        .nav-dropdown { position: relative; }
-        .nav-link { color: var(--slate-700); text-decoration: none; padding: 0.5rem 0; transition: color 0.2s; display: flex; align-items: center; gap: 0.35rem; }
+        .nav-link { color: var(--slate-700); text-decoration: none; transition: color 0.2s; }
         .nav-link:hover { color: var(--indigo-600); }
-        .dropdown-content { display: none; position: absolute; background: white; min-width: 240px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-radius: 0.75rem; border: 1px solid var(--slate-200); padding: 0.5rem 0; top: 100%; left: 0; z-index: 100; }
-        .nav-dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a { color: var(--slate-700); padding: 0.625rem 1rem; text-decoration: none; display: block; font-size: 0.875rem; font-weight: 500; }
-        .dropdown-content a:hover { background-color: var(--indigo-50); color: var(--indigo-600); }
 
         .hero-section { background: radial-gradient(circle at 70% 30%, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.03) 50%, transparent 100%); padding: 4rem 1.5rem 5rem; border-bottom: 1px solid rgba(226, 232, 240, 0.6); }
         .hero-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
@@ -86,29 +81,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <span>EcomStack AI</span>
             </a>
             <nav>
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-link">AI Workflows & Automation ▾</a>
-                    <div class="dropdown-content">
-                        <a href="/makecom-review.html">Make.com</a>
-                        <a href="/zapier-review.html">Zapier AI</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-link">Voice & Support Agents ▾</a>
-                    <div class="dropdown-content">
-                        <a href="/ringlyio-review.html">Ringly.io AI Phone</a>
-                        <a href="/gorgias-review.html">Gorgias Helpdesk</a>
-                    </div>
-                </div>
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-link">Content & Analytics ▾</a>
-                    <div class="dropdown-content">
-                        <a href="/notionai-review.html">Notion AI</a>
-                        <a href="/triple-whale-review.html">Triple Whale</a>
-                    </div>
-                </div>
+                <a href="/" class="nav-link">Home Hub</a>
+                <a href="#pricing" class="nav-link">Top Tools</a>
             </nav>
-            <a href="#" style="background: var(--indigo-600); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 12px rgba(79,70,229,0.3);">Explore Deals</a>
+            <a href="/" style="background: var(--indigo-600); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 12px rgba(79,70,229,0.3);">Explore Deals</a>
         </div>
     </header>
 
@@ -130,7 +106,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         <span style="background: #ecfdf5; color: #059669; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px;">Verified 2026</span>
                     </div>
                     <div style="height: 120px; background: linear-gradient(to right, #eef2ff, #faf5ff, #f0fdf4); border-radius: 0.75rem; border: 1px solid #e0e7ff; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #4f46e5; margin-bottom: 1rem;">
-                        ⚡ AI Model Synchronized
+                        AI Model Synchronized
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
                         <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #f1f5f9;">
@@ -202,6 +178,74 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </html>
 """
 
+INDEX_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcomStack AI | E-commerce & Dropshipping AI Ads Software Directory</title>
+    <meta name="description" content="Discover and compare the best AI ad generators, Meta & TikTok automation tools, and e-commerce analytics platforms for scaling your DTC brand.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0; --slate-600: #475569; --slate-900: #0f172a;
+            --indigo-600: #4f46e5; --indigo-700: #4338ca; --indigo-50: #eef2ff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--slate-50); color: var(--slate-900); line-height: 1.6; }
+        header { background: white; border-bottom: 1px solid var(--slate-200); position: sticky; top: 0; z-index: 50; }
+        .nav-container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; height: 5rem; display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-weight: 800; font-size: 1.25rem; color: var(--slate-900); text-decoration: none; display: flex; align-items: center; gap: 0.75rem; }
+        .logo-icon { width: 2.25rem; height: 2.25rem; background: var(--indigo-600); color: white; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        
+        .hero { max-width: 1280px; margin: 0 auto; padding: 5rem 1.5rem 3rem; text-align: center; }
+        .hero h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 1rem; color: var(--slate-900); }
+        .hero h1 span { color: var(--indigo-600); }
+        .hero p { font-size: 1.25rem; color: var(--slate-600); max-width: 42rem; margin: 0 auto; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 2rem; }
+        .card { background: white; border: 1px solid var(--slate-200); border-radius: 1.25rem; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08); border-color: var(--indigo-600); }
+        .card-tag { display: inline-block; background: var(--indigo-50); color: var(--indigo-700); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px; text-transform: uppercase; margin-bottom: 1rem; }
+        .card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--slate-900); }
+        .card p { color: var(--slate-600); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--slate-100); padding-top: 1rem; font-weight: 600; font-size: 0.9rem; color: var(--indigo-600); }
+        
+        footer { background: var(--slate-900); color: var(--slate-400); text-align: center; padding: 3rem; margin-top: 5rem; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon">AI</div>
+                <span>EcomStack AI</span>
+            </a>
+            <span style="font-size: 0.875rem; font-weight: 600; color: var(--indigo-600);">Meta & TikTok Ad Tech Directory</span>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>Scale Your DTC Brand With <span>AI & Automated Ads</span></h1>
+        <p>In-depth, programmatic reviews of the top SaaS tools for Meta ad scaling, TikTok creatives, dropshipping analytics, and workflows.</p>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+            __CARDS_HTML__
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 EcomStack AI. All rights reserved. Programmatic SEO Engine.
+    </footer>
+
+</body>
+</html>
+"""
+
 def generate_programmatic_page(software_data):
     name = software_data['name']
     category = software_data['category']
@@ -230,10 +274,63 @@ def generate_programmatic_page(software_data):
     with open(filepath, "w", encoding="utf-8") as file:
         file.write(page_content)
         
-    print(f"[+] Successfully generated AI & Automation page in /public/: {filename}")
+    print(f"[+] Generated review page: {filename}")
+    return slug
+
+def generate_index_page(software_list):
+    cards_html = ""
+    for item in software_list:
+        slug = item['name'].lower().replace(".", "").replace(" ", "-") + "-review"
+        cards_html += f"""
+        <a href="/{slug}.html" class="card">
+            <div>
+                <span class="card-tag">{item['category']}</span>
+                <h3>{item['name']} Review (2026)</h3>
+                <p>Starting at ${item['starting_price']}/mo. Explore AI features, Meta & TikTok integrations, and workflow automation.</p>
+            </div>
+            <div class="card-footer">
+                <span>Read In-Depth Review</span>
+                <span>➔</span>
+            </div>
+        </a>
+        """
+    
+    index_content = INDEX_TEMPLATE.replace("__CARDS_HTML__", cards_html)
+    index_path = os.path.join(OUTPUT_DIR, "index.html")
+    with open(index_path, "w", encoding="utf-8") as f:
+        f.write(index_content)
+    print("[+] Generated homepage directory hub: index.html")
 
 if __name__ == "__main__":
-    ai_automation_batch = [
+    ecom_ai_ads_batch = [
+        {
+            "name": "AdCreative.ai",
+            "category": "AI Ad Creatives",
+            "starting_price": 29,
+            "features": ["AI banner & video generation", "Competitor ad intelligence", "Platform-specific sizing (Meta/TikTok)", "Conversion score prediction"],
+            "integrations": ["Meta Ads", "TikTok Ads", "Shopify", "Google Ads"]
+        },
+        {
+            "name": "Madgicx",
+            "category": "Meta & TikTok Ad Automation",
+            "starting_price": 49,
+            "features": ["AI ad launcher & media buying", "Ad spy & creative intelligence", "Automated budget rules", "Cross-channel ROAS dashboard"],
+            "integrations": ["Meta Ads Manager", "TikTok Ads", "Shopify"]
+        },
+        {
+            "name": "Triple Whale",
+            "category": "Analytics & Attribution",
+            "starting_price": 100,
+            "features": ["Centralized AI attribution", "P&L dashboard", "Creative analytics", "First-party pixel tracking"],
+            "integrations": ["Shopify", "Meta Ads", "Google Ads", "TikTok Ads"]
+        },
+        {
+            "name": "Ringly.io",
+            "category": "Voice & Support Agents",
+            "starting_price": 349,
+            "features": ["Autonomous AI phone agent", "Instant order tracking lookup", "Automated returns & exchanges", "24/7 voice routing"],
+            "integrations": ["Shopify", "Twilio", "Zapier"]
+        },
         {
             "name": "Make.com",
             "category": "Workflow Automation",
@@ -242,50 +339,25 @@ if __name__ == "__main__":
             "integrations": ["OpenAI", "Slack", "HubSpot", "Google Sheets"]
         },
         {
-            "name": "Zapier",
-            "category": "Workflow Automation",
-            "starting_price": 29,
-            "features": ["Multi-step zaps", "AI builder assistant", "Custom webhook triggers", "Table database storage"],
-            "integrations": ["Salesforce", "Gmail", "Notion", "Stripe"]
-        },
-        {
-            "name": "Ringly.io",
-            "category": "Voice & Support Agents",
-            "starting_price": 349,
-            "features": ["Autonomous AI phone agent (Seth)", "Instant order tracking lookup", "Automated returns & exchanges", "24/7 voice routing"],
-            "integrations": ["Shopify", "Twilio", "Zapier"]
-        },
-        {
-            "name": "Notion AI",
-            "category": "Content & Knowledge",
-            "starting_price": 10,
-            "features": ["Contextual workspace search", "Automated meeting notes", "AI writing assistant", "Database auto-filling"],
-            "integrations": ["Slack", "Google Drive", "GitHub", "Jira"]
-        },
-        {
             "name": "Gorgias",
             "category": "Customer Support",
             "starting_price": 60,
             "features": ["Unified helpdesk", "AI macros and auto-responses", "Order tracking self-service", "Live chat widgets"],
             "integrations": ["Shopify", "Magento", "Recharge"]
-        },
-        {
-            "name": "Triple Whale",
-            "category": "Analytics & Attribution",
-            "starting_price": 100,
-            "features": ["Centralized AI attribution", "P&L dashboard", "Creative analytics", "First-party pixel tracking"],
-            "integrations": ["Shopify", "Meta Ads", "Google Ads", "TikTok Ads"]
         }
     ]
 
     print("="*50)
-    print("INITIATING AI & AUTOMATION pSEO PIPELINE")
+    print("BUILDING E-COMMERCE AI ADS pSEO EMPIRE")
     print("="*50)
     
-    for item in ai_automation_batch:
+    ensure_output_dir()
+    for item in ecom_ai_ads_batch:
         generate_programmatic_page(item)
-        time.sleep(0.3)
+        time.sleep(0.2)
+        
+    generate_index_page(ecom_ai_ads_batch)
 
     print("="*50)
-    print("BATCH COMPLETE! Check your /public/ folder for new pages.")
+    print("BUILD COMPLETE! Homepage hub and review pages compiled in /public/")
     print("="*50)
