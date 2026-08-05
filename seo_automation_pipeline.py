@@ -13,8 +13,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>__NAME__ Review (2026): Is It Worth $__PRICE__/mo? | EcomStack AI</title>
-    <meta name="description" content="An in-depth review of __NAME__. We analyze its AI capabilities, pricing, workflows, and integrations for modern E-commerce and Meta/TikTok Ad buyers.">
+    <title>__NAME__ Review (2026): Is It Worth $__PRICE__/mo? | EcomStack</title>
+    <meta name="description" content="An in-depth review of __NAME__. We analyze its AI capabilities, pricing, workflows, and integrations for modern E-commerce and digital growth.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -31,8 +31,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .logo-box { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: var(--slate-900); text-decoration: none; }
         .logo-icon { width: 2.25rem; height: 2.25rem; background: var(--indigo-600); color: white; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
         
-        nav { display: flex; gap: 1.75rem; align-items: center; font-weight: 500; font-size: 0.875rem; color: var(--slate-700); }
-        .nav-link { color: var(--slate-700); text-decoration: none; transition: color 0.2s; }
+        nav { display: flex; gap: 1.5rem; align-items: center; font-weight: 500; font-size: 0.875rem; color: var(--slate-700); }
+        .nav-link { color: var(--slate-600); text-decoration: none; transition: color 0.2s; }
         .nav-link:hover { color: var(--indigo-600); }
 
         .hero-section { background: radial-gradient(circle at 70% 30%, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.03) 50%, transparent 100%); padding: 4rem 1.5rem 5rem; border-bottom: 1px solid rgba(226, 232, 240, 0.6); }
@@ -66,9 +66,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .sidebar-box p { color: var(--slate-400); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
         .sidebar-btn { display: block; width: 100%; background: var(--indigo-600); color: white; font-weight: 700; padding: 1rem; border-radius: 1rem; text-align: center; text-decoration: none; box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
 
-        .banner-section { max-width: 1280px; margin: 0 auto 4rem; padding: 0 1.5rem; width: 100%; }
-        .banner-box { background: linear-gradient(135deg, #1e1b4b, #312e81, #0f172a); border-radius: 1.5rem; padding: 3rem; color: white; display: flex; align-items: center; justify-content: space-between; gap: 2rem; box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.3); flex-wrap: wrap; }
-        
         footer { background: var(--slate-900); color: var(--slate-400); text-align: center; padding: 3rem; border-top: 1px solid #1e293b; font-size: 0.875rem; }
     </style>
 </head>
@@ -78,35 +75,38 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <div class="nav-container">
             <a href="index.html" class="logo-box">
                 <div class="logo-icon">AI</div>
-                <span>EcomStack AI</span>
+                <span>EcomStack</span>
             </a>
-            <nav>
-                <a href="index.html" class="nav-link">Home Hub</a>
-                <a href="index.html#pricing" class="nav-link">Top Tools</a>
+            <nav class="hidden md:flex">
+                <a href="index.html" class="nav-link">Inventory & Logistics</a>
+                <a href="index.html" class="nav-link">Marketing</a>
+                <a href="index.html" class="nav-link">Support</a>
+                <a href="index.html" class="nav-link">Analytics</a>
+                <a href="index.html" class="nav-link">SEO & Traffic</a>
             </nav>
-            <a href="index.html" style="background: var(--indigo-600); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 12px rgba(79,70,229,0.3);">Explore Deals</a>
+            <a href="index.html" style="background: var(--indigo-600); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 12px rgba(79,70,229,0.3);">Home Hub</a>
         </div>
     </header>
 
     <section class="hero-section">
         <div class="hero-grid">
             <div>
-                <div class="badge">__CATEGORY__ Intelligence Review</div>
+                <div class="badge">__CATEGORY__ Growth Review</div>
                 <h1>__NAME__ Review (2026): Is It Worth <span>$__PRICE__/mo?</span></h1>
-                <p class="hero-desc">__NAME__ is an essential AI-powered platform designed to streamline __CATEGORY_LOWER__ operations and accelerate business growth.</p>
+                <p class="hero-desc">__NAME__ is an exceptionally powerful tool for scaling e-commerce brands dealing with __CATEGORY_LOWER__ operational workflows.</p>
                 <div class="btn-group">
-                    <a href="#" class="btn-primary">Start Free Trial ➔</a>
-                    <a href="#pricing" class="btn-secondary">View Pricing Details</a>
+                    <a href="#" class="btn-primary">Start 14-Day Free Trial ➔</a>
+                    <a href="index.html" class="btn-secondary">View Pricing</a>
                 </div>
             </div>
             <div class="mockup-card">
                 <div class="mockup-inner">
                     <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
-                        <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">__NAME__ Control Hub</div>
-                        <span style="background: #ecfdf5; color: #059669; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px;">Verified 2026</span>
+                        <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">__NAME__ Workspace</div>
+                        <span style="background: #ecfdf5; color: #059669; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px;">+24.5%</span>
                     </div>
                     <div style="height: 120px; background: linear-gradient(to right, #eef2ff, #faf5ff, #f0fdf4); border-radius: 0.75rem; border: 1px solid #e0e7ff; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #4f46e5; margin-bottom: 1rem;">
-                        AI Model Synchronized
+                        📊 Real-Time Analytics Live
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
                         <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #f1f5f9;">
@@ -114,12 +114,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                             <div style="font-weight: 800; font-size: 0.85rem; color: #059669;">Active</div>
                         </div>
                         <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #f1f5f9;">
-                            <div style="font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Uptime</div>
+                            <div style="font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Sync Rate</div>
                             <div style="font-weight: 800; font-size: 0.85rem; color: #1e293b;">99.9%</div>
                         </div>
                         <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #f1f5f9;">
-                            <div style="font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">ROI Boost</div>
-                            <div style="font-weight: 800; font-size: 0.85rem; color: #4f46e5;">3.4x</div>
+                            <div style="font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Efficiency</div>
+                            <div style="font-weight: 800; font-size: 0.85rem; color: #4f46e5;">98%</div>
                         </div>
                     </div>
                 </div>
@@ -131,11 +131,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         <article>
             <div class="content-card">
                 <h2>Overview</h2>
-                <p>Deploying advanced __CATEGORY_LOWER__ tools is no longer optional for scaling teams. Today we review <strong>__NAME__</strong>, starting at <strong>$__PRICE__/month</strong>, to evaluate its real-world performance and affiliate value.</p>
+                <p>Mastering __CATEGORY_LOWER__ can make or break your store. If you are stocking out of best-sellers or holding too much dead stock, you are bleeding cash. Today we are looking at <strong>__NAME__</strong>, starting at <strong>$__PRICE__/month</strong>.</p>
             </div>
 
             <div class="content-card">
-                <h2>Key Features & AI Capabilities</h2>
+                <h2>Key Features Breakdown</h2>
                 <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
                     __FEATURES_HTML__
                 </div>
@@ -152,26 +152,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         <aside class="sidebar-sticky">
             <div class="sidebar-box">
-                <div style="color: #818cf8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Recommended Tool</div>
-                <h3>Ready to upgrade?</h3>
-                <p>Claim your trial access for __NAME__ and streamline your operations today.</p>
+                <div style="color: #818cf8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Top Recommendation</div>
+                <h3>Ready to optimize?</h3>
+                <p>Stop guessing your operational needs. Get a full trial of __NAME__ today.</p>
                 <a href="#" class="sidebar-btn">Start Free Trial</a>
             </div>
         </aside>
     </main>
 
-    <div class="banner-section">
-        <div class="banner-box">
-            <div>
-                <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Scale your __CATEGORY_LOWER__ stack today</h2>
-                <p style="color: #c7d2fe; font-size: 1rem;">Join leading companies leveraging __NAME__ for automated growth and efficiency.</p>
-            </div>
-            <a href="#" style="background: linear-gradient(135deg, #2dd4bf, #38bdf8); color: #0f172a; font-weight: 800; padding: 1rem 2rem; border-radius: 1rem; text-decoration: none; box-shadow: 0 10px 25px rgba(45, 212, 191, 0.3); white-space: nowrap;">Claim Your Trial Now ➔</a>
-        </div>
-    </div>
-
     <footer>
-        &copy; 2026 EcomStack AI. All rights reserved.
+        &copy; 2026 EcomStack. All rights reserved. <a href="index.html" style="color: #818cf8; text-decoration: none; margin-left: 1rem;">Home Hub</a>
     </footer>
 
 </body>
@@ -183,8 +173,8 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcomStack AI | E-commerce & Dropshipping AI Ads Software Directory</title>
-    <meta name="description" content="Discover and compare the best AI ad generators, Meta & TikTok automation tools, and e-commerce analytics platforms for scaling your DTC brand.">
+    <title>EcomStack | E-commerce & AI Software Directory Hub</title>
+    <meta name="description" content="Discover and compare the best e-commerce software, marketing tools, and logistics automation platforms.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -221,15 +211,15 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
         <div class="nav-container">
             <a href="index.html" class="logo">
                 <div class="logo-icon">AI</div>
-                <span>EcomStack AI</span>
+                <span>EcomStack</span>
             </a>
-            <span style="font-size: 0.875rem; font-weight: 600; color: var(--indigo-600);">Meta & TikTok Ad Tech Directory</span>
+            <span style="font-size: 0.875rem; font-weight: 600; color: var(--indigo-600);">Software Directory Hub</span>
         </div>
     </header>
 
     <div class="hero">
-        <h1>Scale Your DTC Brand With <span>AI & Automated Ads</span></h1>
-        <p>In-depth, programmatic reviews of the top SaaS tools for Meta ad scaling, TikTok creatives, dropshipping analytics, and workflows.</p>
+        <h1>Scale Your E-commerce Brand With <span>Top Software & AI</span></h1>
+        <p>In-depth, programmatic reviews of the top SaaS tools for inventory, marketing, support, and analytics.</p>
     </div>
 
     <div class="container">
@@ -239,7 +229,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
     </div>
 
     <footer>
-        &copy; 2026 EcomStack AI. All rights reserved. Programmatic SEO Engine.
+        &copy; 2026 EcomStack. All rights reserved. Programmatic SEO Engine.
     </footer>
 
 </body>
@@ -286,7 +276,7 @@ def generate_index_page(software_list):
             <div>
                 <span class="card-tag">{item['category']}</span>
                 <h3>{item['name']} Review (2026)</h3>
-                <p>Starting at ${item['starting_price']}/mo. Explore AI features, Meta & TikTok integrations, and workflow automation.</p>
+                <p>Starting at ${item['starting_price']}/mo. Explore features, integrations, and operational workflows.</p>
             </div>
             <div class="card-footer">
                 <span>Read In-Depth Review</span>
@@ -302,12 +292,19 @@ def generate_index_page(software_list):
     print("[+] Generated homepage directory hub: index.html")
 
 if __name__ == "__main__":
-    ecom_ai_ads_batch = [
+    software_batch = [
+        {
+            "name": "InventoryPlanner",
+            "category": "Inventory & Logistics",
+            "starting_price": 99,
+            "features": ["Multi-warehouse syncing", "AI demand forecasting", "Automated purchase orders", "Supplier lead time tracking"],
+            "integrations": ["Shopify", "BigCommerce", "Xero", "Amazon"]
+        },
         {
             "name": "AdCreative.ai",
             "category": "AI Ad Creatives",
             "starting_price": 29,
-            "features": ["AI banner & video generation", "Competitor ad intelligence", "Platform-specific sizing (Meta/TikTok)", "Conversion score prediction"],
+            "features": ["AI banner & video generation", "Competitor ad intelligence", "Platform-specific sizing", "Conversion score prediction"],
             "integrations": ["Meta Ads", "TikTok Ads", "Shopify", "Google Ads"]
         },
         {
@@ -325,11 +322,11 @@ if __name__ == "__main__":
             "integrations": ["Shopify", "Meta Ads", "Google Ads", "TikTok Ads"]
         },
         {
-            "name": "Ringly.io",
-            "category": "Voice & Support Agents",
-            "starting_price": 349,
-            "features": ["Autonomous AI phone agent", "Instant order tracking lookup", "Automated returns & exchanges", "24/7 voice routing"],
-            "integrations": ["Shopify", "Twilio", "Zapier"]
+            "name": "Gorgias",
+            "category": "Customer Support",
+            "starting_price": 60,
+            "features": ["Unified helpdesk", "AI macros and auto-responses", "Order tracking self-service", "Live chat widgets"],
+            "integrations": ["Shopify", "Magento", "Recharge"]
         },
         {
             "name": "Make.com",
@@ -337,26 +334,19 @@ if __name__ == "__main__":
             "starting_price": 9,
             "features": ["Visual scenario builder", "Advanced data mapping", "Error handling modules", "Real-time execution logs"],
             "integrations": ["OpenAI", "Slack", "HubSpot", "Google Sheets"]
-        },
-        {
-            "name": "Gorgias",
-            "category": "Customer Support",
-            "starting_price": 60,
-            "features": ["Unified helpdesk", "AI macros and auto-responses", "Order tracking self-service", "Live chat widgets"],
-            "integrations": ["Shopify", "Magento", "Recharge"]
         }
     ]
 
     print("="*50)
-    print("BUILDING E-COMMERCE AI ADS pSEO EMPIRE")
+    print("BUILDING ECOMSTACK pSEO EMPIRE")
     print("="*50)
     
     ensure_output_dir()
-    for item in ecom_ai_ads_batch:
+    for item in software_batch:
         generate_programmatic_page(item)
-        time.sleep(0.2)
+        time.sleep(0.1)
         
-    generate_index_page(ecom_ai_ads_batch)
+    generate_index_page(software_batch)
 
     print("="*50)
     print("BUILD COMPLETE! Homepage hub and review pages compiled in /public/")
