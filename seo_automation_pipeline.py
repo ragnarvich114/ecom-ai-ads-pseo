@@ -76,15 +76,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <header>
         <div class="nav-container">
-            <a href="/" class="logo-box">
+            <a href="index.html" class="logo-box">
                 <div class="logo-icon">AI</div>
                 <span>EcomStack AI</span>
             </a>
             <nav>
-                <a href="/" class="nav-link">Home Hub</a>
-                <a href="#pricing" class="nav-link">Top Tools</a>
+                <a href="index.html" class="nav-link">Home Hub</a>
+                <a href="index.html#pricing" class="nav-link">Top Tools</a>
             </nav>
-            <a href="/" style="background: var(--indigo-600); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 12px rgba(79,70,229,0.3);">Explore Deals</a>
+            <a href="index.html" style="background: var(--indigo-600); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 12px rgba(79,70,229,0.3);">Explore Deals</a>
         </div>
     </header>
 
@@ -219,7 +219,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
 
     <header>
         <div class="nav-container">
-            <a href="/" class="logo">
+            <a href="index.html" class="logo">
                 <div class="logo-icon">AI</div>
                 <span>EcomStack AI</span>
             </a>
@@ -282,7 +282,7 @@ def generate_index_page(software_list):
     for item in software_list:
         slug = item['name'].lower().replace(".", "").replace(" ", "-") + "-review"
         cards_html += f"""
-        <a href="/{slug}.html" class="card">
+        <a href="{slug}.html" class="card">
             <div>
                 <span class="card-tag">{item['category']}</span>
                 <h3>{item['name']} Review (2026)</h3>
