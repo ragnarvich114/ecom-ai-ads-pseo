@@ -17,6 +17,175 @@
         ]
     },
     {
+        "name": "AdCreative.ai",
+        "category": "AI Ad Creatives",
+        "starting_price": 29,
+        "features": [
+            "AI banner & video generation",
+            "Competitor ad intelligence",
+            "Platform-specific sizing",
+            "Conversion score prediction"
+        ],
+        "integrations": [
+            "Meta Ads",
+            "TikTok Ads",
+            "Shopify",
+            "Google Ads"
+        ]
+    },
+    {
+        "name": "Madgicx",
+        "category": "Meta & TikTok Ad Automation",
+        "starting_price": 49,
+        "features": [
+            "AI ad launcher & media buying",
+            "Ad spy & creative intelligence",
+            "Automated budget rules",
+            "Cross-channel ROAS dashboard"
+        ],
+        "integrations": [
+            "Meta Ads Manager",
+            "TikTok Ads",
+            "Shopify"
+        ]
+    },
+    {
+        "name": "Triple Whale",
+        "category": "Analytics & Attribution",
+        "starting_price": 100,
+        "features": [
+            "Centralized AI attribution",
+            "P&L dashboard",
+            "Creative analytics",
+            "First-party pixel tracking"
+        ],
+        "integrations": [
+            "Shopify",
+            "Meta Ads",
+            "Google Ads",
+            "TikTok Ads"
+        ]
+    },
+    {
+        "name": "Gorgias",
+        "category": "Customer Support",
+        "starting_price": 60,
+        "features": [
+            "Unified helpdesk",
+            "AI macros and auto-responses",
+            "Order tracking self-service",
+            "Live chat widgets"
+        ],
+        "integrations": [
+            "Shopify",
+            "Magento",
+            "Recharge"
+        ]
+    },
+    {
+        "name": "Make.com",
+        "category": "Workflow Automation",
+        "starting_price": 9,
+        "features": [
+            "Visual scenario builder",
+            "Advanced data mapping",
+            "Error handling modules",
+            "Real-time execution logs"
+        ],
+        "integrations": [
+            "OpenAI",
+            "Slack",
+            "HubSpot",
+            "Google Sheets"
+        ]
+    },
+    {
+        "name": "Creatify AI",
+        "category": "AI Ad Creatives",
+        "starting_price": 29,
+        "features": [
+            "URL-to-video conversion",
+            "AI avatar generation",
+            "UGC video scriptwriter",
+            "Multi-platform aspect ratios"
+        ],
+        "integrations": [
+            "Shopify",
+            "TikTok Shop",
+            "Meta Ads",
+            "YouTube Shorts"
+        ]
+    },
+    {
+        "name": "Motion",
+        "category": "Creative Analytics & Media Buying",
+        "starting_price": 149,
+        "features": [
+            "Ad creative performance breakdown",
+            "Video hook rate tracking",
+            "Collaborative team tagging",
+            "Custom data dashboards"
+        ],
+        "integrations": [
+            "Meta Ads",
+            "TikTok Ads",
+            "Google Ads",
+            "Shopify"
+        ]
+    },
+    {
+        "name": "Attentive",
+        "category": "SMS & Email Marketing",
+        "starting_price": 199,
+        "features": [
+            "AI text generation & personalization",
+            "Two-way SMS journeys",
+            "Shopify deep integration",
+            "Advanced subscriber growth tools"
+        ],
+        "integrations": [
+            "Shopify",
+            "Klaviyo",
+            "Gorgias",
+            "Stripe"
+        ]
+    },
+    {
+        "name": "Recharge",
+        "category": "Subscriptions & Recurring Revenue",
+        "starting_price": 99,
+        "features": [
+            "Customizable customer portal",
+            "Automated dunning & retry logic",
+            "Subscription bundles",
+            "Analytics & retention metrics"
+        ],
+        "integrations": [
+            "Shopify",
+            "BigCommerce",
+            "Klaviyo",
+            "Gorgias"
+        ]
+    },
+    {
+        "name": "Northbeam",
+        "category": "Attribution & Analytics",
+        "starting_price": 300,
+        "features": [
+            "First-party pixel tracking",
+            "Multi-touch attribution models",
+            "SKAN & iOS14+ workarounds",
+            "P&L tracking per product"
+        ],
+        "integrations": [
+            "Shopify",
+            "Meta Ads",
+            "Google Ads",
+            "TikTok Ads",
+            "Klaviyo"
+        ]
+    },
+    {
         "name": "Klaviyo",
         "category": "Marketing & Email",
         "starting_price": 45,
