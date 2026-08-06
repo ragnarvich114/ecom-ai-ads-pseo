@@ -1,12 +1,62 @@
 import json
 import os
+import google.generativeai as genai
+
+# Configure your Gemini API key 
+# (Set your environment variable: set GEMINI_API_KEY="your_api_key" or paste it below)
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY", "YOUR_API_KEY"))
 
 OUTPUT_DIR = "./public"
 DATA_FILE = "software_db.json"
 
 def ensure_output_dir():
+    """Ensure output directory exists."""
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
+
+def generate_human_touch_article(tool_name, category, price, features):
+    """
+    Uses Gemini 2.5 Flash to write a natural, expert-level, human-sounding review 
+    avoiding robotic template repetition.
+    """
+    model = genai.GenerativeModel("gemini-2.5-flash")
+    
+    prompt = f"""
+    You are an expert e-commerce operations consultant and senior software reviewer.
+    Write a comprehensive, highly engaging, human-sounding software review (2026 edition) for "{tool_name}", 
+    which is in the "{category}" category and starts at ${price}/month.
+    
+    Key features to cover naturally in the text: {", ".join(features)}.
+    
+    Requirements:
+    1. Write with an authentic, conversational, and authoritative tone (like an experienced DTC founder reviewing tools).
+    2. Include an honest assessment of who this tool is best for, operational workflows, and practical ROI.
+    3. Include 3 distinct sections with clear HTML headings (<h2>):
+       - Why {tool_name} Stands Out in {category}
+       - Core Operational Workflow & Key Benefits
+       - Final Verdict: Is It Worth ${price}/mo?
+    4. Return ONLY clean HTML content for the article body (use <p>, <ul>, <li>, <strong> tags). Do not include markdown code fences in the output.
+    """
+    
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        print(f"[!] Note for {tool_name}: AI generation skipped or API key missing ({e}). Using standard expert overview.")
+        return f"""
+        <h2>Why {tool_name} Stands Out in {category}</h2>
+        <p>In today's fast-paced e-commerce environment, scaling efficiently requires specialized software that removes operational friction. <strong>{tool_name}</strong> delivers exceptional value in the {category} space starting at just ${price}/month.</p>
+        
+        <h2>Core Operational Workflow & Key Benefits</h2>
+        <p>Designed with modern direct-to-consumer brands in mind, {tool_name} streamlines daily execution through robust automation and intuitive dashboards.</p>
+        <ul>
+            <li><strong>Core Capability:</strong> {features[0] if features else 'Advanced workflow automation'}</li>
+            <li><strong>Seamless Scaling:</strong> Engineered to handle high transaction volumes without latency.</li>
+        </ul>
+        
+        <h2>Final Verdict: Is It Worth ${price}/mo?</h2>
+        <p>For store owners looking to optimize performance and increase profitability, {tool_name} is a worthwhile investment with a fast return on investment.</p>
+        """
 
 def get_navbar_html():
     return """
@@ -65,7 +115,7 @@ REVIEW_TEMPLATE = """<!DOCTYPE html>
             </h1>
             <p class="text-lg text-slate-600 max-w-3xl leading-relaxed mb-8">__DESCRIPTION__</p>
             <div class="flex gap-4 flex-wrap">
-                <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-indigo-200 transition-all">Start Free Trial ➔</a>
+                <a href="__AFFILIATE_LINK__" target="_blank" rel="noopener" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-indigo-200 transition-all">Start Free Trial ➔</a>
                 <a href="#features" class="bg-white hover:bg-slate-100 text-slate-700 font-semibold py-3.5 px-8 rounded-xl border border-slate-200 transition-all">View Features</a>
             </div>
         </div>
@@ -73,10 +123,8 @@ REVIEW_TEMPLATE = """<!DOCTYPE html>
 
     <main class="max-w-5xl mx-auto px-6 py-12 grid lg:grid-cols-3 gap-12 w-full">
         <article class="lg:col-span-2 space-y-8">
-            <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-                <h2 class="text-2xl font-bold text-slate-900 mb-4">Comprehensive Overview</h2>
-                <p class="text-slate-600 leading-relaxed mb-4">In today's highly competitive e-commerce landscape, scaling a store requires leveraging specialized SaaS tools that automate complex workflows. <strong>__NAME__</strong> stands out in the <strong>__CATEGORY__</strong> category by providing robust tooling starting at <strong>$__PRICE__/month</strong>.</p>
-                <p class="text-slate-600 leading-relaxed">Whether you are managing multi-channel operations, optimizing ad campaigns, or driving customer retention, __NAME__ offers an integrated feature set designed to maximize return on investment.</p>
+            <div class="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 shadow-sm space-y-6 text-slate-700 leading-relaxed text-lg">
+                __AI_ARTICLE_BODY__
             </div>
 
             <div id="features" class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
@@ -99,7 +147,7 @@ REVIEW_TEMPLATE = """<!DOCTYPE html>
                 <div class="text-indigo-400 font-bold uppercase text-xs tracking-wider mb-2">Expert Verdict</div>
                 <h3 class="text-xl font-bold mb-3">Ready to scale __NAME__?</h3>
                 <p class="text-slate-400 text-sm mb-6 leading-relaxed">Join thousands of DTC merchants optimizing their workflow with __NAME__ today.</p>
-                <a href="#" class="block bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-3.5 rounded-xl text-center transition-colors shadow-lg shadow-indigo-900">Claim Free Trial</a>
+                <a href="__AFFILIATE_LINK__" target="_blank" rel="noopener" class="block bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-3.5 rounded-xl text-center transition-colors shadow-lg shadow-indigo-900">Claim Free Trial</a>
             </div>
         </aside>
     </main>
@@ -313,7 +361,7 @@ AI_VIDEO_GUIDE_TEMPLATE = """<!DOCTYPE html>
             </ul>
 
             <h2 class="text-2xl font-bold text-slate-900">Explore Our Top-Rated AI Video Tools</h2>
-            <p>Ready to store's video marketing stack? Explore our in-depth reviews of leading software in our <a href="ai-video-and-content.html" class="text-indigo-600 font-semibold hover:underline">AI Video & Content Hub</a>.</p>
+            <p>Ready to upgrade your store's video marketing stack? Explore our in-depth reviews of leading software in our <a href="ai-video-and-content.html" class="text-indigo-600 font-semibold hover:underline">AI Video & Content Hub</a>.</p>
         </article>
     </main>
 
@@ -333,14 +381,20 @@ def generate_site():
         print(f"[!] {DATA_FILE} not found.")
         return
 
+    print("[*] Generating human-touch AI articles using Gemini for software database...")
+
     # 1. Generate Individual Review Pages
     for item in software_list:
         name = item['name']
         category = item['category']
         price = str(item['starting_price'])
         desc = item.get('description', 'In-depth software review for scaling e-commerce brands.')
+        aff_link = item.get('affiliate_link', '#')
         slug = name.lower().replace(".", "").replace(" ", "-") + "-review"
         filepath = os.path.join(OUTPUT_DIR, f"{slug}.html")
+
+        print(f"[-] Compiling review for {name}...")
+        ai_article_body = generate_human_touch_article(name, category, price, item['features'])
 
         features_html = "".join([f"""
             <div class="flex items-center gap-3 bg-slate-50 border border-slate-100 p-3.5 rounded-xl font-medium text-slate-700">
@@ -362,13 +416,15 @@ def generate_site():
                         .replace("__CATEGORY__", category)
                         .replace("__PRICE__", price)
                         .replace("__DESCRIPTION__", desc)
+                        .replace("__AFFILIATE_LINK__", aff_link)
+                        .replace("__AI_ARTICLE_BODY__", ai_article_body)
                         .replace("__FEATURES_HTML__", features_html)
                         .replace("__INTEGRATIONS_HTML__", integrations_html))
 
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(page_content)
 
-    # 2. Generate Comparison Pages (e.g., Klaviyo vs Postscript, Surfer vs Semrush, Higgsfield vs OpenArt)
+    # 2. Generate Comparison Pages
     comparisons = [
         ("Higgsfield AI", "OpenArt AI"),
         ("Klaviyo", "Postscript"),
@@ -416,7 +472,7 @@ def generate_site():
         with open(comp_filepath, "w", encoding="utf-8") as f:
             f.write(comp_content)
 
-    # 3. Group by Category & Generate Category Archive Pages
+    # 3. Generate Category Archive Pages
     categories = {}
     for item in software_list:
         cat = item['category']
@@ -452,7 +508,7 @@ def generate_site():
         with open(cat_filepath, "w", encoding="utf-8") as f:
             f.write(cat_page)
 
-    # 4. Generate Index Homepage Hub
+    # 4. Generate Homepage Hub
     index_cards_html = ""
     for item in software_list:
         slug = item['name'].lower().replace(".", "").replace(" ", "-") + "-review"
@@ -473,14 +529,13 @@ def generate_site():
     index_page = (INDEX_TEMPLATE
                   .replace("__NAVBAR__", get_navbar_html())
                   .replace("__FOOTER__", get_footer_html())
-                  .replace("__COMPARISON_CAR_CARDS__", comparison_cards_html)
                   .replace("__COMPARISON_CARDS__", comparison_cards_html)
                   .replace("__CARDS_HTML__", index_cards_html))
 
     with open(os.path.join(OUTPUT_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_page)
 
-    # 5. Generate Strategic Editorial Guide: AI Video in E-commerce
+    # 5. Generate Strategic Editorial Guide
     guide_path = os.path.join(OUTPUT_DIR, "importance-of-ai-video-in-ecommerce.html")
     guide_page = (AI_VIDEO_GUIDE_TEMPLATE
                   .replace("__NAVBAR__", get_navbar_html())
@@ -488,7 +543,7 @@ def generate_site():
     with open(guide_path, "w", encoding="utf-8") as f:
         f.write(guide_page)
 
-    print("[+] BUILD COMPLETE! All category hubs, comparison face-offs, and review pages compiled successfully.")
+    print("[+] BUILD & AI ARTICLE GENERATION COMPLETE! All pages compiled successfully.")
 
 if __name__ == "__main__":
     generate_site()
