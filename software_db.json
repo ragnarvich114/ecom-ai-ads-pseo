@@ -1,205 +1,146 @@
 [
-    {
-        "name": "InventoryPlanner",
-        "category": "Inventory & Logistics",
-        "starting_price": 99,
-        "features": [
-            "Multi-warehouse syncing",
-            "AI demand forecasting",
-            "Automated purchase orders",
-            "Supplier lead time tracking"
-        ],
-        "integrations": [
-            "Shopify",
-            "BigCommerce",
-            "Xero",
-            "Amazon"
-        ]
-    },
-    {
-        "name": "AdCreative.ai",
-        "category": "AI Ad Creatives",
-        "starting_price": 29,
-        "features": [
-            "AI banner & video generation",
-            "Competitor ad intelligence",
-            "Platform-specific sizing",
-            "Conversion score prediction"
-        ],
-        "integrations": [
-            "Meta Ads",
-            "TikTok Ads",
-            "Shopify",
-            "Google Ads"
-        ]
-    },
-    {
-        "name": "Madgicx",
-        "category": "Meta & TikTok Ad Automation",
-        "starting_price": 49,
-        "features": [
-            "AI ad launcher & media buying",
-            "Ad spy & creative intelligence",
-            "Automated budget rules",
-            "Cross-channel ROAS dashboard"
-        ],
-        "integrations": [
-            "Meta Ads Manager",
-            "TikTok Ads",
-            "Shopify"
-        ]
-    },
-    {
-        "name": "Triple Whale",
-        "category": "Analytics & Attribution",
-        "starting_price": 100,
-        "features": [
-            "Centralized AI attribution",
-            "P&L dashboard",
-            "Creative analytics",
-            "First-party pixel tracking"
-        ],
-        "integrations": [
-            "Shopify",
-            "Meta Ads",
-            "Google Ads",
-            "TikTok Ads"
-        ]
-    },
-    {
-        "name": "Gorgias",
-        "category": "Customer Support",
-        "starting_price": 60,
-        "features": [
-            "Unified helpdesk",
-            "AI macros and auto-responses",
-            "Order tracking self-service",
-            "Live chat widgets"
-        ],
-        "integrations": [
-            "Shopify",
-            "Magento",
-            "Recharge"
-        ]
-    },
-    {
-        "name": "Make.com",
-        "category": "Workflow Automation",
-        "starting_price": 9,
-        "features": [
-            "Visual scenario builder",
-            "Advanced data mapping",
-            "Error handling modules",
-            "Real-time execution logs"
-        ],
-        "integrations": [
-            "OpenAI",
-            "Slack",
-            "HubSpot",
-            "Google Sheets"
-        ]
-    },
-    {
-        "name": "Creatify AI",
-        "category": "AI Ad Creatives",
-        "starting_price": 29,
-        "features": [
-            "URL-to-video conversion",
-            "AI avatar generation",
-            "UGC video scriptwriter",
-            "Multi-platform aspect ratios"
-        ],
-        "integrations": [
-            "Shopify",
-            "TikTok Shop",
-            "Meta Ads",
-            "YouTube Shorts"
-        ]
-    },
-    {
-        "name": "Motion",
-        "category": "Creative Analytics & Media Buying",
-        "starting_price": 149,
-        "features": [
-            "Ad creative performance breakdown",
-            "Video hook rate tracking",
-            "Collaborative team tagging",
-            "Custom data dashboards"
-        ],
-        "integrations": [
-            "Meta Ads",
-            "TikTok Ads",
-            "Google Ads",
-            "Shopify"
-        ]
-    },
-    {
-        "name": "Attentive",
-        "category": "SMS & Email Marketing",
-        "starting_price": 199,
-        "features": [
-            "AI text generation & personalization",
-            "Two-way SMS journeys",
-            "Shopify deep integration",
-            "Advanced subscriber growth tools"
-        ],
-        "integrations": [
-            "Shopify",
-            "Klaviyo",
-            "Gorgias",
-            "Stripe"
-        ]
-    },
-    {
-        "name": "Recharge",
-        "category": "Subscriptions & Recurring Revenue",
-        "starting_price": 99,
-        "features": [
-            "Customizable customer portal",
-            "Automated dunning & retry logic",
-            "Subscription bundles",
-            "Analytics & retention metrics"
-        ],
-        "integrations": [
-            "Shopify",
-            "BigCommerce",
-            "Klaviyo",
-            "Gorgias"
-        ]
-    },
-    {
-        "name": "Northbeam",
-        "category": "Attribution & Analytics",
-        "starting_price": 300,
-        "features": [
-            "First-party pixel tracking",
-            "Multi-touch attribution models",
-            "SKAN & iOS14+ workarounds",
-            "P&L tracking per product"
-        ],
-        "integrations": [
-            "Shopify",
-            "Meta Ads",
-            "Google Ads",
-            "TikTok Ads",
-            "Klaviyo"
-        ]
-    },
-    {
-        "name": "Klaviyo",
-        "category": "Marketing & Email",
-        "starting_price": 45,
-        "features": [
-            "AI email personalization",
-            "SMS marketing automation",
-            "Predictive customer analytics",
-            "Shopify deep sync"
-        ],
-        "integrations": [
-            "Shopify",
-            "WooCommerce",
-            "Gorgias",
-            "Stripe"
-        ]
-    }
+{
+"name": "Higgsfield AI",
+"category": "AI Video & Content",
+"starting_price": 29,
+"description": "Cinematic AI video generation platform empowering e-commerce brands to create hyper-realistic product videos and TikTok ads without a production crew.",
+"features": [
+"Character and product consistency across scenes",
+"Text-to-video cinematic generation",
+"Automated UGC video scaling for TikTok Shop",
+"Multi-platform aspect ratio rendering"
+],
+"integrations": [
+"TikTok Shop",
+"Instagram Reels",
+"Shopify",
+"Meta Ads"
+]
+},
+{
+"name": "OpenArt AI",
+"category": "AI Video & Content",
+"starting_price": 20,
+"description": "Advanced generative AI image and video styling suite designed for creating unique, high-converting e-commerce product imagery and visual assets.",
+"features": [
+"Instant product background replacement & styling",
+"AI model generation for apparel and cosmetics",
+"Sketch-to-image and sketch-to-video workflows",
+"High-resolution upscaling and retouching"
+],
+"integrations": [
+"Shopify",
+"WooCommerce",
+"Figma",
+"Canva"
+]
+},
+{
+"name": "AdCreative.ai",
+"category": "AI Video & Content",
+"starting_price": 29,
+"description": "Data-trained AI platform that generates high-converting ad banners and video clips predicted to perform on Meta and TikTok.",
+"features": [
+"AI banner & short-form video generation",
+"Competitor ad intelligence scraper",
+"Platform-specific sizing & automated cropping",
+"Conversion score prediction algorithm"
+],
+"integrations": [
+"Meta Ads",
+"TikTok Ads",
+"Shopify",
+"Google Ads"
+]
+},
+{
+"name": "Klaviyo",
+"category": "Marketing & Email",
+"starting_price": 45,
+"description": "The gold standard for data-driven email and SMS marketing automation, delivering personalized customer journeys for online stores.",
+"features": [
+"AI email personalization and subject line generation",
+"SMS marketing automation flows",
+"Predictive customer lifetime value analytics",
+"Deep Shopify and WooCommerce sync"
+],
+"integrations": [
+"Shopify",
+"WooCommerce",
+"Gorgias",
+"Stripe"
+]
+},
+{
+"name": "Postscript",
+"category": "Marketing & Email",
+"starting_price": 100,
+"description": "Top-tier SMS marketing and two-way conversational commerce platform built specifically for DTC brands.",
+"features": [
+"Shopify deep sync & precise segmentation",
+"AI-powered SMS reply automation",
+"Two-way customer support conversations",
+"Advanced revenue attribution dashboards"
+],
+"integrations": [
+"Shopify",
+"Klaviyo",
+"Gorgias",
+"Recharge"
+]
+},
+{
+"name": "Semrush Ecom SEO",
+"category": "SEO & Traffic",
+"starting_price": 129,
+"description": "Comprehensive SEO suite for keyword research, competitor keyword gap analysis, and e-commerce organic traffic scaling.",
+"features": [
+"Keyword cannibalization and ranking tracker",
+"Technical e-commerce site audit crawler",
+"Competitor backlink gap analysis",
+"AI content assistant for category pages"
+],
+"integrations": [
+"Google Search Console",
+"Google Analytics",
+"WordPress",
+"Shopify"
+]
+},
+{
+"name": "Surfer SEO",
+"category": "SEO & Traffic",
+"starting_price": 89,
+"description": "Content optimization platform driven by NLP to help programmatic review pages and blog posts rank #1 on Google.",
+"features": [
+"Real-time NLP content scoring guidelines",
+"Automated article outlining and structuring",
+"Keyword clustering for programmatic silos",
+"Audit existing pages for quick traffic boosts"
+],
+"integrations": [
+"Google Docs",
+"WordPress",
+"Jasper",
+"Shopify"
+]
+},
+{
+"name": "InventoryPlanner",
+"category": "Inventory & Logistics",
+"starting_price": 99,
+"description": "Advanced multi-warehouse demand forecasting and automated purchase order generation to prevent stockouts.",
+"features": [
+"Multi-warehouse inventory syncing",
+"AI demand forecasting and seasonality modeling",
+"Automated purchase order creation",
+"Supplier lead time tracking"
+],
+"integrations": [
+"Shopify",
+"BigCommerce",
+"Xero",
+"Amazon"
+]
+}
 ]

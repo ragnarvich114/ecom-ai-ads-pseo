@@ -1,6 +1,5 @@
 import json
 import os
-import time
 
 OUTPUT_DIR = "./public"
 DATA_FILE = "software_db.json"
@@ -9,217 +8,199 @@ def ensure_output_dir():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
-HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="en" style="scroll-behavior: smooth;">
+def get_navbar_html():
+    return """
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2.5 font-extrabold text-xl text-slate-900 no-underline">
+                <div class="w-9 h-9 bg-indigo-600 text-white rounded-lg flex items-center justify-center font-bold text-lg shadow-md shadow-indigo-200">AI</div>
+                <span>EcomStack</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8 font-semibold text-sm text-slate-600">
+                <a href="ai-video-and-content.html" class="hover:text-indigo-600 transition-colors">AI Video</a>
+                <a href="marketing-and-email.html" class="hover:text-indigo-600 transition-colors">Marketing</a>
+                <a href="seo-and-traffic.html" class="hover:text-indigo-600 transition-colors">SEO</a>
+                <a href="inventory-and-logistics.html" class="hover:text-indigo-600 transition-colors">Inventory</a>
+            </nav>
+            <a href="index.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-full text-sm shadow-md shadow-indigo-200 transition-colors">Directory Hub</a>
+        </div>
+    </header>
+    """
+
+def get_footer_html():
+    return """
+    <footer class="bg-slate-900 text-slate-400 py-12 px-6 border-t border-slate-800 text-center text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>&copy; 2026 EcomStack. All rights reserved. Professional E-commerce Software Directory.</div>
+            <div class="flex gap-6 justify-center">
+                <a href="index.html" class="hover:text-white transition-colors">Directory Hub</a>
+                <a href="ai-video-and-content.html" class="hover:text-white transition-colors">AI Video</a>
+                <a href="marketing-and-email.html" class="hover:text-white transition-colors">Marketing</a>
+                <a href="seo-and-traffic.html" class="hover:text-white transition-colors">SEO</a>
+            </div>
+        </div>
+    </footer>
+    """
+
+REVIEW_TEMPLATE = """<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>__NAME__ Review (2026): Is It Worth $__PRICE__/mo? | EcomStack</title>
     <meta name="description" content="Read our exhaustive 2026 review of __NAME__. We analyze its AI capabilities, pricing tiers, operational workflows, pros and cons, and ROI for E-commerce brands.">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0; --slate-400: #94a3b8;
-            --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b; --slate-900: #0f172a;
-            --indigo-50: #eef2ff; --indigo-100: #e0e7ff; --indigo-600: #4f46e5; --indigo-700: #4338ca;
-            --emerald-50: #ecfdf5; --emerald-600: #059669; --red-50: #fef2f2; --red-600: #dc2626;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--slate-50); color: var(--slate-800); line-height: 1.7; display: flex; flex-direction: column; justify-content: space-between; min-height: 100vh; }
-        
-        header { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
-        .nav-container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; height: 5rem; display: flex; align-items: center; justify-content: space-between; }
-        .logo-box { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: var(--slate-900); text-decoration: none; }
-        .logo-icon { width: 2.25rem; height: 2.25rem; background: var(--indigo-600); color: white; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
-        
-        nav { display: flex; gap: 1.5rem; align-items: center; font-weight: 500; font-size: 0.875rem; color: var(--slate-700); }
-        .nav-link { color: var(--slate-600); text-decoration: none; transition: color 0.2s; }
-        .nav-link:hover { color: var(--indigo-600); }
-
-        .hero-section { background: radial-gradient(circle at 70% 30%, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.03) 50%, transparent 100%); padding: 4rem 1.5rem 5rem; border-bottom: 1px solid rgba(226, 232, 240, 0.6); }
-        .hero-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
-        @media(max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
-        
-        .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--indigo-50); border: 1px solid var(--indigo-100); color: var(--indigo-700); font-size: 0.75rem; font-weight: 700; padding: 0.375rem 1rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; }
-        h1 { font-size: 3rem; font-weight: 800; color: var(--slate-900); letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 1.25rem; }
-        h1 span { color: var(--indigo-600); }
-        .hero-desc { font-size: 1.125rem; color: var(--slate-600); line-height: 1.6; margin-bottom: 2rem; max-width: 38rem; }
-        
-        .btn-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-        .btn-primary { background: var(--indigo-600); color: white; font-weight: 600; padding: 1rem 2rem; border-radius: 1rem; text-decoration: none; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.35); transition: background 0.2s; display: inline-flex; align-items: center; gap: 0.75rem; }
-        .btn-primary:hover { background: var(--indigo-700); }
-        .btn-secondary { background: white; color: var(--slate-700); font-weight: 600; padding: 1rem 2rem; border-radius: 1rem; text-decoration: none; border: 1px solid var(--slate-200); box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: background 0.2s; }
-        .btn-secondary:hover { background: var(--slate-50); }
-
-        .mockup-card { background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.1)); padding: 0.75rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.8); backdrop-filter: blur(20px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
-        .mockup-inner { background: white; border-radius: 1.25rem; padding: 1.5rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-
-        main { max-width: 1280px; margin: 0 auto; padding: 4rem 1.5rem; display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; width: 100%; }
-        @media(max-width: 900px) { main { grid-template-columns: 1fr; } }
-        
-        .content-card { background: white; border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 1.5rem; padding: 2.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); margin-bottom: 2rem; }
-        .content-card h2 { font-size: 1.75rem; font-weight: 700; color: var(--slate-900); margin-bottom: 1rem; }
-        .content-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--slate-800); margin: 1.5rem 0 0.75rem; }
-        .content-card p { color: var(--slate-600); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.25rem; }
-
-        .pros-cons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
-        @media(max-width: 600px) { .pros-cons-grid { grid-template-columns: 1fr; } }
-        .pros-box { background: var(--emerald-50); border: 1px solid #a7f3d0; border-radius: 1rem; padding: 1.5rem; }
-        .pros-box h4 { color: #065f46; font-weight: 700; margin-bottom: 1rem; font-size: 1.1rem; }
-        .cons-box { background: var(--red-50); border: 1px solid #fecaca; border-radius: 1rem; padding: 1.5rem; }
-        .cons-box h4 { color: #991b1b; font-weight: 700; margin-bottom: 1rem; font-size: 1.1rem; }
-        .list-item { display: flex; align-items: start; gap: 0.5rem; font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--slate-700); }
-
-        .sidebar-sticky { position: sticky; top: 6rem; }
-        .sidebar-box { background: var(--slate-900); color: white; border-radius: 1.5rem; padding: 2.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); }
-        .sidebar-box h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
-        .sidebar-box p { color: var(--slate-400); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
-        .sidebar-btn { display: block; width: 100%; background: var(--indigo-600); color: white; font-weight: 700; padding: 1rem; border-radius: 1rem; text-align: center; text-decoration: none; box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
-
-        .faq-item { background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1rem; }
-        .faq-item h4 { font-size: 1.1rem; font-weight: 700; color: var(--slate-900); margin-bottom: 0.5rem; }
-        .faq-item p { color: var(--slate-600); margin-bottom: 0; }
-
-        footer { background: var(--slate-900); color: var(--slate-400); text-align: center; padding: 3rem; border-top: 1px solid #1e293b; font-size: 0.875rem; }
-    </style>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col justify-between min-h-screen">
 
-    <header>
-        <div class="nav-container">
-            <a href="index.html" class="logo-box">
-                <div class="logo-icon">AI</div>
-                <span>EcomStack</span>
-            </a>
-            <nav class="hidden md:flex">
-                <a href="index.html" class="nav-link">Directory Hub</a>
-                <a href="index.html" class="nav-link">Top Software</a>
-                <a href="index.html" class="nav-link">Comparison</a>
-            </nav>
-            <a href="index.html" style="background: var(--indigo-600); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 12px rgba(79,70,229,0.3);">Home Hub</a>
+    __NAVBAR__
+
+    <header class="bg-gradient-to-b from-indigo-50/50 to-slate-50 py-16 px-6 border-b border-slate-200">
+        <div class="max-w-5xl mx-auto">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">__CATEGORY__ Review</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+                __NAME__ Review (2026): Is It Worth <span class="text-indigo-600">$__PRICE__/mo?</span>
+            </h1>
+            <p class="text-lg text-slate-600 max-w-3xl leading-relaxed mb-8">__DESCRIPTION__</p>
+            <div class="flex gap-4 flex-wrap">
+                <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-indigo-200 transition-all">Start Free Trial ➔</a>
+                <a href="#features" class="bg-white hover:bg-slate-100 text-slate-700 font-semibold py-3.5 px-8 rounded-xl border border-slate-200 transition-all">View Features</a>
+            </div>
         </div>
     </header>
 
-    <section class="hero-section">
-        <div class="hero-grid">
-            <div>
-                <div class="badge">__CATEGORY__ Growth Review (2026)</div>
-                <h1>__NAME__ Review: Is It Worth <span>$__PRICE__/mo?</span></h1>
-                <p class="hero-desc">An exhaustive analysis of __NAME__ for scaling direct-to-consumer brands and streamlining __CATEGORY_LOWER__ operations in 2026.</p>
-                <div class="btn-group">
-                    <a href="__AFFILIATE_LINK__" target="_blank" rel="nofollow noopener" class="btn-primary">Start Free Trial ➔</a>
-                    <a href="#pricing" class="btn-secondary">View Pricing Breakdown</a>
-                </div>
-            </div>
-            <div class="mockup-card">
-                <div class="mockup-inner">
-                    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
-                        <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">__NAME__ Analytics Dashboard</div>
-                        <span style="background: #ecfdf5; color: #059669; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px;">Verified 2026</span>
-                    </div>
-                    <div style="height: 120px; background: linear-gradient(to right, #eef2ff, #faf5ff, #f0fdf4); border-radius: 0.75rem; border: 1px solid #e0e7ff; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #4f46e5; margin-bottom: 1rem;">
-                        🚀 Performance Score: 98.4/100
-                    </div>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
-                        <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #f1f5f9;">
-                            <div style="font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Uptime</div>
-                            <div style="font-weight: 800; font-size: 0.85rem; color: #059669;">99.9%</div>
-                        </div>
-                        <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #f1f5f9;">
-                            <div style="font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">ROI Speed</div>
-                            <div style="font-weight: 800; font-size: 0.85rem; color: #1e293b;">&lt; 14 Days</div>
-                        </div>
-                        <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; border: 1px실 border: 1px solid #f1f5f9;">
-                            <div style="font-size: 9px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Rating</div>
-                            <div style="font-weight: 800; font-size: 0.85rem; color: #4f46e5;">4.8 / 5</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <main>
-        <article>
-            <div class="content-card">
-                <h2>Comprehensive Overview of __NAME__</h2>
-                <p>In the fast-moving world of e-commerce, modern store owners face constant pressure to optimize every single lever of their business. Whether you are dealing with __CATEGORY_LOWER__ bottlenecks, scaling ad spend, or managing customer expectations, manual workflows simply cannot keep pace with multi-channel growth.</p>
-                <p><strong>__NAME__</strong> enters the market at <strong>$__PRICE__/month</strong> as a specialized solution designed to cut through operational complexity. By leveraging modern cloud automation and advanced tooling, it targets the exact pain points that drain profitability from growing online stores.</p>
-                <p>Throughout this review, we analyze __NAME__'s feature set, ecosystem compatibility, pricing structure, and real-world utility so you can decide if it belongs in your tech stack.</p>
+    <main class="max-w-5xl mx-auto px-6 py-12 grid lg:grid-cols-3 gap-12 w-full">
+        <article class="lg:col-span-2 space-y-8">
+            <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">Comprehensive Overview</h2>
+                <p class="text-slate-600 leading-relaxed mb-4">In today's highly competitive e-commerce landscape, scaling a store requires leveraging specialized SaaS tools that automate complex workflows. <strong>__NAME__</strong> stands out in the <strong>__CATEGORY__</strong> category by providing robust tooling starting at <strong>$__PRICE__/month</strong>.</p>
+                <p class="text-slate-600 leading-relaxed">Whether you are managing multi-channel operations, optimizing ad campaigns, or driving customer retention, __NAME__ offers an integrated feature set designed to maximize return on investment.</p>
             </div>
 
-            <div class="content-card">
-                <h2>Key Features & Capabilities Breakdown</h2>
-                <p>Our editorial evaluation identified several standout features that set __NAME__ apart from legacy alternatives:</p>
-                <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+            <div id="features" class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">Key Features & Capabilities</h2>
+                <div class="grid gap-3">
                     __FEATURES_HTML__
                 </div>
             </div>
 
-            <div class="content-card">
-                <h2>Pros & Cons of __NAME__</h2>
-                <div class="pros-cons-grid">
-                    <div class="pros-box">
-                        <h4>What We Like (Pros)</h4>
-                        <div class="list-item">✅ Deep integration with major e-commerce platforms like Shopify.</div>
-                        <div class="list-item">✅ Intuitive user interface with minimal onboarding friction.</div>
-                        <div class="list-item">✅ Robust automation rules that save hours of manual oversight.</div>
-                    </div>
-                    <div class="cons-box">
-                        <h4>Potential Drawbacks (Cons)</h4>
-                        <div class="list-item">❌ Pricing can scale up quickly for high-volume stores.</div>
-                        <div class="list-item">❌ Requires initial configuration time to dial in custom rules.</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-card">
-                <h2 id="pricing">Pricing & ROI Analysis</h2>
-                <p>Starting at <strong>$__PRICE__/month</strong>, __NAME__ is priced competitively for growth-stage brands. When evaluated against the labor hours saved and the potential upside in operational efficiency or revenue protection, the platform typically achieves positive ROI within its first billing cycle.</p>
-                <p>We always recommend testing any new SaaS tool using their trial period before committing to an annual plan.</p>
-                <div style="margin-top: 1.5rem;">
-                    <a href="__AFFILIATE_LINK__" target="_blank" rel="nofollow noopener" class="btn-primary">Claim __NAME__ Free Trial ➔</a>
-                </div>
-            </div>
-
-            <div class="content-card">
-                <h2>Ecosystem Integrations</h2>
-                <p>A software tool is only as good as its ability to communicate with the rest of your tech stack. __NAME__ connects smoothly with:</p>
-                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;">
+            <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">Ecosystem Integrations</h2>
+                <div class="flex flex-wrap gap-2.5">
                     __INTEGRATIONS_HTML__
-                </div>
-            </div>
-
-            <div class="content-card">
-                <h2>Frequently Asked Questions (FAQ)</h2>
-                <div class="faq-item">
-                    <h4>Is __NAME__ suitable for small Shopify stores?</h4>
-                    <p>Yes, while enterprise brands benefit from its advanced scalability, solo founders and growing teams can utilize its core features right out of the box.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>How long does setup take?</h4>
-                    <p>Most merchants can complete the onboarding wizard and sync their store data in under 15 minutes.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Does __NAME__ offer a free trial?</h4>
-                    <p>Yes, you can test out the platform features through our exclusive partner link above.</p>
                 </div>
             </div>
         </article>
 
-        <aside class="sidebar-sticky">
-            <div class="sidebar-box">
-                <div style="color: #818cf8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Expert Recommendation</div>
-                <h3>Ready to scale?</h3>
-                <p>Stop losing revenue to inefficient __CATEGORY_LOWER__ workflows. Get started with __NAME__ today.</p>
-                <a href="__AFFILIATE_LINK__" target="_blank" rel="nofollow noopener" class="sidebar-btn">Start Free Trial</a>
+        <aside class="space-y-6">
+            <div class="sticky top-28 bg-slate-900 text-white rounded-2xl p-8 shadow-xl">
+                <div class="text-indigo-400 font-bold uppercase text-xs tracking-wider mb-2">Expert Verdict</div>
+                <h3 class="text-xl font-bold mb-3">Ready to scale __NAME__?</h3>
+                <p class="text-slate-400 text-sm mb-6 leading-relaxed">Join thousands of DTC merchants optimizing their workflow with __NAME__ today.</p>
+                <a href="#" class="block bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-3.5 rounded-xl text-center transition-colors shadow-lg shadow-indigo-900">Claim Free Trial</a>
             </div>
         </aside>
     </main>
 
-    <footer>
-        &copy; 2026 EcomStack. All rights reserved. Professional E-commerce Software Reviews & Guides. <a href="index.html" style="color: #818cf8; text-decoration: none; margin-left: 1rem;">Home Hub</a>
-    </footer>
+    __FOOTER__
+
+</body>
+</html>
+"""
+
+CATEGORY_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>__CATEGORY_NAME__ Software & Guides | EcomStack</title>
+    <meta name="description" content="Explore our expert reviews and guides for __CATEGORY_NAME__ tools, apps, and AI software in 2026.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col justify-between min-h-screen">
+
+    __NAVBAR__
+
+    <section class="bg-gradient-to-b from-indigo-50/50 to-slate-50 py-16 px-6 text-center border-b border-slate-200">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">Category Hub</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">__CATEGORY_NAME__</h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">Discover in-depth reviews, pricing breakdowns, and expert guides for the top __CATEGORY_NAME__ solutions in e-commerce.</p>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-6 py-16 w-full flex-grow">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            __CARDS_HTML__
+        </div>
+    </main>
+
+    __FOOTER__
+
+</body>
+</html>
+"""
+
+COMPARISON_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>__TOOL_A__ vs __TOOL_B__ (2026): Which is Best for E-commerce? | EcomStack</title>
+    <meta name="description" content="Detailed 2026 comparison between __TOOL_A__ and __TOOL_B__. Compare pricing, features, integrations, and ROI for DTC brands.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col justify-between min-h-screen">
+
+    __NAVBAR__
+
+    <header class="bg-gradient-to-b from-indigo-50/50 to-slate-50 py-16 px-6 border-b border-slate-200 text-center">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">Software Face-off</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                __TOOL_A__ vs __TOOL_B__ (2026): Head-to-Head Comparison
+            </h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">We compare pricing, core features, integrations, and ROI to help you choose the right tool for your e-commerce store.</p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-16 w-full space-y-12">
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm flex flex-col justify-between">
+                <div>
+                    <span class="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Option A</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">__TOOL_A__</h2>
+                    <p class="text-indigo-600 font-semibold mb-4">Starting at $__PRICE_A__/mo</p>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">__DESC_A__</p>
+                </div>
+                <a href="__SLUG_A__.html" class="block bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl text-center transition-colors">Read Full __TOOL_A__ Review ➔</a>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm flex flex-col justify-between">
+                <div>
+                    <span class="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Option B</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">__TOOL_B__</h2>
+                    <p class="text-indigo-600 font-semibold mb-4">Starting at $__PRICE_B__/mo</p>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">__DESC_B__</p>
+                </div>
+                <a href="__SLUG_B__.html" class="block bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl text-center transition-colors">Read Full __TOOL_B__ Review ➔</a>
+            </div>
+        </div>
+
+        <article class="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 shadow-sm space-y-6 text-slate-700 leading-relaxed text-lg">
+            <h2 class="text-2xl font-bold text-slate-900">Which One Should You Choose?</h2>
+            <p>When deciding between <strong>__TOOL_A__</strong> and <strong>__TOOL_B__</strong>, your choice ultimately comes down to budget and specific workflow requirements. If you need advanced category-leading features, __TOOL_A__ provides exceptional value starting at $<span id="pa">__PRICE_A__</span>/mo.</p>
+            <p>Conversely, if your brand prioritizes specialized integrations and streamlined scaling, __TOOL_B__ is a formidable contender.</p>
+        </article>
+    </main>
+
+    __FOOTER__
 
 </body>
 </html>
@@ -230,142 +211,284 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcomStack | E-commerce & AI Software Directory Hub</title>
-    <meta name="description" content="Discover, compare, and review the best e-commerce software, marketing tools, and logistics automation platforms in 2026.">
+    <title>EcomStack | E-commerce Software Directory & Comparisons</title>
+    <meta name="description" content="Discover, compare, and review the best e-commerce software, AI video tools, marketing automation, and inventory platforms in 2026.">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0; --slate-600: #475569; --slate-900: #0f172a;
-            --indigo-600: #4f46e5; --indigo-700: #4338ca; --indigo-50: #eef2ff;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--slate-50); color: var(--slate-900); line-height: 1.6; }
-        header { background: white; border-bottom: 1px solid var(--slate-200); position: sticky; top: 0; z-index: 50; }
-        .nav-container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; height: 5rem; display: flex; align-items: center; justify-content: space-between; }
-        .logo { font-weight: 800; font-size: 1.25rem; color: var(--slate-900); text-decoration: none; display: flex; align-items: center; gap: 0.75rem; }
-        .logo-icon { width: 2.25rem; height: 2.25rem; background: var(--indigo-600); color: white; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
-        
-        .hero { max-width: 1280px; margin: 0 auto; padding: 5rem 1.5rem 3rem; text-align: center; }
-        .hero h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 1rem; color: var(--slate-900); }
-        .hero h1 span { color: var(--indigo-600); }
-        .hero p { font-size: 1.25rem; color: var(--slate-600); max-width: 42rem; margin: 0 auto; }
-
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 5rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 2rem; }
-        .card { background: white; border: 1px solid var(--slate-200); border-radius: 1.25rem; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08); border-color: var(--indigo-600); }
-        .card-tag { display: inline-block; background: var(--indigo-50); color: var(--indigo-700); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px; text-transform: uppercase; margin-bottom: 1rem; }
-        .card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--slate-900); }
-        .card p { color: var(--slate-600); font-size: 0.95rem; margin-bottom: 1.5rem; }
-        .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--slate-100); padding-top: 1rem; font-weight: 600; font-size: 0.9rem; color: var(--indigo-600); }
-        
-        footer { background: var(--slate-900); color: var(--slate-400); text-align: center; padding: 3rem; margin-top: 5rem; font-size: 0.875rem; }
-    </style>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col justify-between min-h-screen">
 
-    <header>
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">AI</div>
-                <span>EcomStack</span>
-            </a>
-            <span style="font-size: 0.875rem; font-weight: 600; color: var(--indigo-600);">Software Directory Hub</span>
+    __NAVBAR__
+
+    <section class="bg-gradient-to-b from-indigo-50/60 to-slate-50 py-20 px-6 text-center border-b border-slate-200">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-6 shadow-sm">2026 E-commerce Software Hub</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+                Scale Your E-commerce Brand With <span class="text-indigo-600">Top Software & AI</span>
+            </h1>
+            <p class="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">In-depth software reviews, head-to-head comparisons, and strategic guides for modern DTC founders.</p>
+            <div class="flex justify-center gap-4 flex-wrap">
+                <a href="ai-video-and-content.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-indigo-200 transition-all">Explore AI Video Tools ➔</a>
+                <a href="#comparisons" class="bg-white hover:bg-slate-100 text-slate-700 font-semibold py-3.5 px-8 rounded-xl border border-slate-200 transition-all">View Comparisons</a>
+            </div>
         </div>
-    </header>
+    </section>
 
-    <div class="hero">
-        <h1>Scale Your E-commerce Brand With <span>Top Software & AI</span></h1>
-        <p>In-depth, expert software reviews of SaaS tools for inventory, marketing, support, and analytics.</p>
-    </div>
+    <!-- AI Video Editorial Banner -->
+    <section class="max-w-7xl mx-auto px-6 pt-16 w-full">
+        <div class="bg-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="max-w-2xl">
+                <span class="inline-block bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">Featured Editorial Guide</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Why AI Video is Transforming E-commerce in 2026</h2>
+                <p class="text-slate-300 leading-relaxed mb-6">From cinematic product demonstrations using Higgsfield to automated ad generation with OpenArt and AdCreative, discover how modern DTC brands use generative video to slash customer acquisition costs.</p>
+                <a href="importance-of-ai-video-in-ecommerce.html" class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-xl transition-colors">Read Full Guide ➔</a>
+            </div>
+            <div class="w-full md:w-auto bg-slate-800/80 border border-slate-700 rounded-2xl p-6 text-center shrink-0">
+                <div class="text-3xl font-extrabold text-indigo-400 mb-1">3.4x</div>
+                <div class="text-sm text-slate-400">Higher ROAS with AI Video Ads</div>
+            </div>
+        </div>
+    </section>
 
-    <div class="container">
-        <div class="grid">
+    <!-- COMPARISON SECTION -->
+    <section id="comparisons" class="max-w-7xl mx-auto px-6 py-16 w-full">
+        <h2 class="text-2xl font-bold text-slate-900 mb-8">Head-to-Head Software Comparisons</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            __COMPARISON_CARDS__
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-6 pb-16 w-full">
+        <h2 class="text-2xl font-bold text-slate-900 mb-8">All Software Reviews & Articles</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             __CARDS_HTML__
         </div>
-    </div>
+    </main>
 
-    <footer>
-        &copy; 2026 EcomStack. All rights reserved. Professional E-commerce Software Directory.
-    </footer>
+    __FOOTER__
 
 </body>
 </html>
 """
 
-def generate_programmatic_page(software_data):
-    name = software_data['name']
-    category = software_data['category']
-    price = str(software_data['starting_price'])
-    affiliate_link = software_data.get('affiliate_link', '#')
-    slug = name.lower().replace(".", "").replace(" ", "-") + "-review"
-    filename = f"{slug}.html"
-    filepath = os.path.join(OUTPUT_DIR, filename)
-    
-    features_html = "".join([f"""
-        <div style="display: flex; align-items: center; gap: 0.75rem; color: #334155; font-weight: 500; background: #f8fafc; padding: 0.875rem 1rem; border-radius: 0.75rem; border: 1px solid #f1f5f9;">
-            <div style="width: 1.5rem; height: 1.5rem; border-radius: 9999px; background: #eef2ff; color: #4f46e5; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0;">✓</div>
-            <span>{f}</span>
-        </div>
-    """ for f in software_data['features']])
-    
-    integrations_html = "".join([f"""
-        <div style="display: flex; align-items: center; gap: 0.5rem; background: white; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 1px solid #e2e8f0; font-weight: 600; color: #1e293b; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
-            <span style="width: 0.625rem; height: 0.625rem; border-radius: 9999px; background: #10b981;"></span>
-            {integ}
-        </div>
-    """ for integ in software_data['integrations']])
-    
-    page_content = (HTML_TEMPLATE
-                    .replace("__NAME__", name)
-                    .replace("__CATEGORY__", category)
-                    .replace("__CATEGORY_LOWER__", category.lower())
-                    .replace("__PRICE__", price)
-                    .replace("__AFFILIATE_LINK__", affiliate_link)
-                    .replace("__FEATURES_HTML__", features_html)
-                    .replace("__INTEGRATIONS_HTML__", integrations_html))
+AI_VIDEO_GUIDE_TEMPLATE = """<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why AI Video is Transforming E-commerce in 2026 | EcomStack</title>
+    <meta name="description" content="Discover how AI video generation tools like Higgsfield and OpenArt are revolutionizing digital advertising and storytelling for e-commerce brands.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col justify-between min-h-screen">
 
+    __NAVBAR__
+
+    <header class="bg-gradient-to-b from-indigo-50/50 to-slate-50 py-16 px-6 border-b border-slate-200">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">Strategic Editorial</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+                Why AI Video is Transforming E-commerce in 2026
+            </h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">How generative video platforms like Higgsfield and OpenArt are replacing traditional video agencies and driving record conversions on TikTok and Meta.</p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-12 space-y-8 w-full">
+        <article class="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 shadow-sm space-y-6 text-slate-700 leading-relaxed text-lg">
+            <h2 class="text-2xl font-bold text-slate-900">The Death of Traditional Video Production</h2>
+            <p>For years, creating high-converting video advertisements required hiring modeling agencies, renting studios, and waiting weeks for post-production. Today, direct-to-consumer (DTC) brands are bypassing these bottlenecks entirely using generative AI video platforms.</p>
+            
+            <h2 class="text-2xl font-bold text-slate-900">The Power of Tools Like Higgsfield and OpenArt</h2>
+            <p>Platforms such as <strong>Higgsfield AI</strong> allow founders to generate cinematic, character-consistent video clips directly from text prompts. Meanwhile, tools like <strong>OpenArt</strong> and <strong>AdCreative.ai</strong> specialize in instant product styling and conversion-optimized ad variations.</p>
+            
+            <h2 class="text-2xl font-bold text-slate-900">Key Benefits for Online Store Owners</h2>
+            <ul class="list-disc pl-6 space-y-3 text-base">
+                <li><strong>Radically Lower Costs:</strong> Produce 50+ ad variants for the price of a single traditional studio shoot.</li>
+                <li><strong>Unmatched Speed:</strong> Test new creative angles and hooks on TikTok and Meta within hours instead of weeks.</li>
+                <li><strong>Dynamic Localization:</strong> Instantly adapt video backgrounds, languages, and models to target global markets.</li>
+            </ul>
+
+            <h2 class="text-2xl font-bold text-slate-900">Explore Our Top-Rated AI Video Tools</h2>
+            <p>Ready to store's video marketing stack? Explore our in-depth reviews of leading software in our <a href="ai-video-and-content.html" class="text-indigo-600 font-semibold hover:underline">AI Video & Content Hub</a>.</p>
+        </article>
+    </main>
+
+    __FOOTER__
+
+</body>
+</html>
+"""
+
+def generate_site():
     ensure_output_dir()
-    with open(filepath, "w", encoding="utf-8") as file:
-        file.write(page_content)
-        
-    return slug
+    
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            software_list = json.load(f)
+    except FileNotFoundError:
+        print(f"[!] {DATA_FILE} not found.")
+        return
 
-def generate_index_page(software_list):
-    cards_html = ""
+    # 1. Generate Individual Review Pages
+    for item in software_list:
+        name = item['name']
+        category = item['category']
+        price = str(item['starting_price'])
+        desc = item.get('description', 'In-depth software review for scaling e-commerce brands.')
+        slug = name.lower().replace(".", "").replace(" ", "-") + "-review"
+        filepath = os.path.join(OUTPUT_DIR, f"{slug}.html")
+
+        features_html = "".join([f"""
+            <div class="flex items-center gap-3 bg-slate-50 border border-slate-100 p-3.5 rounded-xl font-medium text-slate-700">
+                <span class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                <span>{f}</span>
+            </div>
+        """ for f in item['features']])
+
+        integrations_html = "".join([f"""
+            <span class="bg-white border border-slate-200 text-slate-800 font-semibold px-4 py-2 rounded-xl text-sm shadow-sm">
+                {integ}
+            </span>
+        """ for integ in item['integrations']])
+
+        page_content = (REVIEW_TEMPLATE
+                        .replace("__NAVBAR__", get_navbar_html())
+                        .replace("__FOOTER__", get_footer_html())
+                        .replace("__NAME__", name)
+                        .replace("__CATEGORY__", category)
+                        .replace("__PRICE__", price)
+                        .replace("__DESCRIPTION__", desc)
+                        .replace("__FEATURES_HTML__", features_html)
+                        .replace("__INTEGRATIONS_HTML__", integrations_html))
+
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(page_content)
+
+    # 2. Generate Comparison Pages (e.g., Klaviyo vs Postscript, Surfer vs Semrush, Higgsfield vs OpenArt)
+    comparisons = [
+        ("Higgsfield AI", "OpenArt AI"),
+        ("Klaviyo", "Postscript"),
+        ("Surfer SEO", "Semrush Ecom SEO")
+    ]
+
+    comparison_cards_html = ""
+    for tool_a, tool_b in comparisons:
+        item_a = next((x for x in software_list if x['name'] == tool_a), None)
+        item_b = next((x for x in software_list if x['name'] == tool_b), None)
+        if not item_a or not item_b:
+            continue
+
+        slug_a = item_a['name'].lower().replace(".", "").replace(" ", "-") + "-review"
+        slug_b = item_b['name'].lower().replace(".", "").replace(" ", "-") + "-review"
+        comp_slug = f"{item_a['name'].lower().replace('.', '').replace(' ', '-')}-vs-{item_b['name'].lower().replace('.', '').replace(' ', '-')}.html"
+        comp_filepath = os.path.join(OUTPUT_DIR, comp_slug)
+
+        comparison_cards_html += f"""
+        <a href="{comp_slug}" class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:border-indigo-600 transition-all flex flex-col justify-between group">
+            <div>
+                <span class="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">Software Face-off</span>
+                <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-2">{item_a['name']} vs {item_b['name']} (2026)</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">Compare pricing, features, and integrations to find the right tool for your store.</p>
+            </div>
+            <div class="flex items-center justify-between border-t border-slate-100 pt-4 font-semibold text-sm text-indigo-600">
+                <span>View Comparison</span>
+                <span>➔</span>
+            </div>
+        </a>
+        """
+
+        comp_content = (COMPARISON_TEMPLATE
+                        .replace("__NAVBAR__", get_navbar_html())
+                        .replace("__FOOTER__", get_footer_html())
+                        .replace("__TOOL_A__", item_a['name'])
+                        .replace("__TOOL_B__", item_b['name'])
+                        .replace("__PRICE_A__", str(item_a['starting_price']))
+                        .replace("__PRICE_B__", str(item_b['starting_price']))
+                        .replace("__DESC_A__", item_a['description'])
+                        .replace("__DESC_B__", item_b['description'])
+                        .replace("__SLUG_A__", slug_a.replace(".html", ""))
+                        .replace("__SLUG_B__", slug_b.replace(".html", "")))
+
+        with open(comp_filepath, "w", encoding="utf-8") as f:
+            f.write(comp_content)
+
+    # 3. Group by Category & Generate Category Archive Pages
+    categories = {}
+    for item in software_list:
+        cat = item['category']
+        categories.setdefault(cat, []).append(item)
+
+    for cat_name, items in categories.items():
+        cat_slug = cat_name.lower().replace(" & ", "-and-").replace(" ", "-") + ".html"
+        cat_filepath = os.path.join(OUTPUT_DIR, cat_slug)
+
+        cards_html = ""
+        for item in items:
+            slug = item['name'].lower().replace(".", "").replace(" ", "-") + "-review"
+            cards_html += f"""
+            <a href="{slug}.html" class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:border-indigo-600 transition-all flex flex-col justify-between group">
+                <div>
+                    <span class="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">{item['category']}</span>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-2">{item['name']} Review (2026)</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">{item.get('description', '')}</p>
+                </div>
+                <div class="flex items-center justify-between border-t border-slate-100 pt-4 font-semibold text-sm text-indigo-600">
+                    <span>Read In-Depth Review</span>
+                    <span>➔</span>
+                </div>
+            </a>
+            """
+
+        cat_page = (CATEGORY_TEMPLATE
+                    .replace("__NAVBAR__", get_navbar_html())
+                    .replace("__FOOTER__", get_footer_html())
+                    .replace("__CATEGORY_NAME__", cat_name)
+                    .replace("__CARDS_HTML__", cards_html))
+
+        with open(cat_filepath, "w", encoding="utf-8") as f:
+            f.write(cat_page)
+
+    # 4. Generate Index Homepage Hub
+    index_cards_html = ""
     for item in software_list:
         slug = item['name'].lower().replace(".", "").replace(" ", "-") + "-review"
-        cards_html += f"""
-        <a href="{slug}.html" class="card">
+        index_cards_html += f"""
+        <a href="{slug}.html" class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:border-indigo-600 transition-all flex flex-col justify-between group">
             <div>
-                <span class="card-tag">{item['category']}</span>
-                <h3>{item['name']} Review (2026)</h3>
-                <p>Starting at ${item['starting_price']}/mo. Explore features, integrations, and operational workflows.</p>
+                <span class="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">{item['category']}</span>
+                <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-2">{item['name']} Review (2026)</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">{item.get('description', '')}</p>
             </div>
-            <div class="card-footer">
+            <div class="flex items-center justify-between border-t border-slate-100 pt-4 font-semibold text-sm text-indigo-600">
                 <span>Read In-Depth Review</span>
                 <span>➔</span>
             </div>
         </a>
         """
-    
-    index_content = INDEX_TEMPLATE.replace("__CARDS_HTML__", cards_html)
-    index_path = os.path.join(OUTPUT_DIR, "index.html")
-    with open(index_path, "w", encoding="utf-8") as f:
-        f.write(index_content)
+
+    index_page = (INDEX_TEMPLATE
+                  .replace("__NAVBAR__", get_navbar_html())
+                  .replace("__FOOTER__", get_footer_html())
+                  .replace("__COMPARISON_CAR_CARDS__", comparison_cards_html)
+                  .replace("__COMPARISON_CARDS__", comparison_cards_html)
+                  .replace("__CARDS_HTML__", index_cards_html))
+
+    with open(os.path.join(OUTPUT_DIR, "index.html"), "w", encoding="utf-8") as f:
+        f.write(index_page)
+
+    # 5. Generate Strategic Editorial Guide: AI Video in E-commerce
+    guide_path = os.path.join(OUTPUT_DIR, "importance-of-ai-video-in-ecommerce.html")
+    guide_page = (AI_VIDEO_GUIDE_TEMPLATE
+                  .replace("__NAVBAR__", get_navbar_html())
+                  .replace("__FOOTER__", get_footer_html()))
+    with open(guide_path, "w", encoding="utf-8") as f:
+        f.write(guide_page)
+
+    print("[+] BUILD COMPLETE! All category hubs, comparison face-offs, and review pages compiled successfully.")
 
 if __name__ == "__main__":
-    print("Building EcomStack pSEO Empire...")
-    ensure_output_dir()
-    try:
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
-            software_batch = json.load(f)
-    except FileNotFoundError:
-        software_batch = []
-
-    if software_batch:
-        for item in software_batch:
-            generate_programmatic_page(item)
-            time.sleep(0.05)
-        generate_index_page(software_batch)
-    print("Build complete! All long-form review pages generated.")
+    generate_site()
