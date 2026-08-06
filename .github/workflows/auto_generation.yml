@@ -2,7 +2,7 @@ name: Automated pSEO & AI Content Generator
 
 on:
   schedule:
-    - cron: '0 8 * * 1'
+    - cron: '0 8 * * 1,3,5' # Runs every Monday, Wednesday, and Friday at 8:00 AM UTC
   workflow_dispatch:
 
 jobs:
