@@ -3,7 +3,7 @@ import os
 import google.generativeai as genai
 
 # Configure your Gemini API key 
-# (Set your environment variable: set GEMINI_API_KEY="your_api_key" or paste it below)
+# (Set your environment variable: set GEMINI_API_KEY="your_api_key")
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY", "YOUR_API_KEY"))
 
 OUTPUT_DIR = "./public"
@@ -16,26 +16,38 @@ def ensure_output_dir():
 
 def generate_human_touch_article(tool_name, category, price, features):
     """
-    Uses Gemini 2.5 Flash to write a natural, expert-level, human-sounding review 
-    avoiding robotic template repetition.
+    Uses Gemini to write an exhaustive, in-depth, long-form human-sounding review (1,000+ words)
+    optimized for AdSense and high-intent SEO traffic.
     """
     model = genai.GenerativeModel("gemini-2.5-flash")
     
     prompt = f"""
-    You are an expert e-commerce operations consultant and senior software reviewer.
-    Write a comprehensive, highly engaging, human-sounding software review (2026 edition) for "{tool_name}", 
+    You are an expert e-commerce operations consultant, media buyer, and senior software reviewer.
+    Write an exhaustive, highly engaging, authoritative, long-form software review (2026 edition) for "{tool_name}", 
     which is in the "{category}" category and starts at ${price}/month.
     
-    Key features to cover naturally in the text: {", ".join(features)}.
+    Key features to cover thoroughly in the text: {", ".join(features)}.
     
-    Requirements:
-    1. Write with an authentic, conversational, and authoritative tone (like an experienced DTC founder reviewing tools).
-    2. Include an honest assessment of who this tool is best for, operational workflows, and practical ROI.
-    3. Include 3 distinct sections with clear HTML headings (<h2>):
-       - Why {tool_name} Stands Out in {category}
-       - Core Operational Workflow & Key Benefits
-       - Final Verdict: Is It Worth ${price}/mo?
-    4. Return ONLY clean HTML content for the article body (use <p>, <ul>, <li>, <strong> tags). Do not include markdown code fences in the output.
+    CRITICAL LENGTH REQUIREMENT: The review body must be comprehensive and detailed, targeting a length of 1,000 to 1,200 words. Avoid surface-level summaries; provide deep operational analysis, real-world e-commerce examples, and actionable guidance for DTC brand founders.
+    
+    Required Structure (use clean HTML tags like <h2>, <h3>, <p>, <ul>, <li>, <strong>):
+    1. <h2>Executive Summary: Why {tool_name} is Dominating {category} in 2026</h2>
+       - Detailed introduction on current e-commerce challenges and why traditional methods fail.
+       - High-level overview of {tool_name}'s unique positioning.
+    2. <h2>Deep-Dive Feature Breakdown & Operational Workflows</h2>
+       - Exhaustive analysis of key features: {", ".join(features)}.
+       - Step-by-step explanation of how a direct-to-consumer store implements this in their daily routine.
+    3. <h2>Pricing Tiers & Return on Investment (ROI) Analysis</h2>
+       - Detailed breakdown of the entry price (${price}/mo) vs. expected financial return.
+       - Cost-benefit analysis for startup stores vs. scaling 7-figure brands.
+    4. <h2>Pros and Cons: The Honest Truth</h2>
+       - Detailed paragraphs on what makes the tool exceptional and where it falls short.
+    5. <h2>Frequently Asked Questions (FAQ)</h2>
+       - Answer 3 common questions merchants ask before purchasing {tool_name}.
+    6. <h2>Final Verdict & Recommendation</h2>
+       - Clear guidance on who should buy this tool immediately and who should skip it.
+    
+    Return ONLY clean HTML content for the article body. Do not include markdown code fences in the output.
     """
     
     try:
@@ -44,15 +56,21 @@ def generate_human_touch_article(tool_name, category, price, features):
     except Exception as e:
         print(f"[!] Note for {tool_name}: AI generation skipped or API key missing ({e}). Using standard expert overview.")
         return f"""
-        <h2>Why {tool_name} Stands Out in {category}</h2>
+        <h2>Executive Summary: Why {tool_name} is Dominating {category} in 2026</h2>
         <p>In today's fast-paced e-commerce environment, scaling efficiently requires specialized software that removes operational friction. <strong>{tool_name}</strong> delivers exceptional value in the {category} space starting at just ${price}/month.</p>
         
-        <h2>Core Operational Workflow & Key Benefits</h2>
+        <h2>Deep-Dive Feature Breakdown & Operational Workflows</h2>
         <p>Designed with modern direct-to-consumer brands in mind, {tool_name} streamlines daily execution through robust automation and intuitive dashboards.</p>
         <ul>
             <li><strong>Core Capability:</strong> {features[0] if features else 'Advanced workflow automation'}</li>
             <li><strong>Seamless Scaling:</strong> Engineered to handle high transaction volumes without latency.</li>
         </ul>
+        
+        <h2>Pricing Tiers & Return on Investment (ROI) Analysis</h2>
+        <p>At ${price}/mo, founders see a measurable return within the first 30 days of implementation by saving hours of manual labor and optimizing conversion paths.</p>
+        
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        <p><strong>Is {tool_name} beginner-friendly?</strong> Yes, the platform offers robust onboarding guides and templates.</p>
         
         <h2>Final Verdict: Is It Worth ${price}/mo?</h2>
         <p>For store owners looking to optimize performance and increase profitability, {tool_name} is a worthwhile investment with a fast return on investment.</p>
@@ -347,20 +365,20 @@ AI_VIDEO_GUIDE_TEMPLATE = """<!DOCTYPE html>
 
     <main class="max-w-4xl mx-auto px-6 py-12 space-y-8 w-full">
         <article class="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 shadow-sm space-y-6 text-slate-700 leading-relaxed text-lg">
-            <h2 class="text-2xl font-bold text-slate-900">The Death of Traditional Video Production</h2>
-            <p>For years, creating high-converting video advertisements required hiring modeling agencies, renting studios, and waiting weeks for post-production. Today, direct-to-consumer (DTC) brands are bypassing these bottlenecks entirely using generative AI video platforms.</p>
+            <h2>The Death of Traditional Video Production in E-Commerce</h2>
+            <p>For years, creating high-converting video advertisements required hiring modeling agencies, renting expensive physical studios, and waiting weeks for professional post-production. Today, direct-to-consumer (DTC) brands and nimble dropshippers are bypassing these bottlenecks entirely using generative AI video platforms. This shift has fundamentally altered how digital advertising creative is conceived, tested, and scaled across social channels.</p>
             
-            <h2 class="text-2xl font-bold text-slate-900">The Power of Tools Like Higgsfield and OpenArt</h2>
-            <p>Platforms such as <strong>Higgsfield AI</strong> allow founders to generate cinematic, character-consistent video clips directly from text prompts. Meanwhile, tools like <strong>OpenArt</strong> and <strong>AdCreative.ai</strong> specialize in instant product styling and conversion-optimized ad variations.</p>
+            <h2>The Power of Tools Like Higgsfield AI and OpenArt</h2>
+            <p>Platforms such as <strong>Higgsfield AI</strong> allow founders to generate cinematic, character-consistent video clips directly from simple text prompts, removing the need for physical shoots. Meanwhile, tools like <strong>OpenArt</strong> and <strong>AdCreative.ai</strong> specialize in instant product styling, model generation, and conversion-optimized ad variations tailored specifically for TikTok Shop and Meta feeds.</p>
             
-            <h2 class="text-2xl font-bold text-slate-900">Key Benefits for Online Store Owners</h2>
+            <h2>Core Operational Benefits for Online Store Owners</h2>
             <ul class="list-disc pl-6 space-y-3 text-base">
-                <li><strong>Radically Lower Costs:</strong> Produce 50+ ad variants for the price of a single traditional studio shoot.</li>
-                <li><strong>Unmatched Speed:</strong> Test new creative angles and hooks on TikTok and Meta within hours instead of weeks.</li>
-                <li><strong>Dynamic Localization:</strong> Instantly adapt video backgrounds, languages, and models to target global markets.</li>
+                <li><strong>Radically Lower Production Costs:</strong> Produce 50+ unique ad variants for the price of a single traditional studio shoot.</li>
+                <li><strong>Unmatched Speed and Agility:</strong> Test new creative angles, hooks, and product presentations on TikTok and Meta within hours instead of weeks.</li>
+                <li><strong>Dynamic Localization and Personalization:</strong> Instantly adapt video backgrounds, languages, and models to target global markets seamlessly.</li>
             </ul>
 
-            <h2 class="text-2xl font-bold text-slate-900">Explore Our Top-Rated AI Video Tools</h2>
+            <h2>Explore Our Top-Rated AI Video Tools</h2>
             <p>Ready to upgrade your store's video marketing stack? Explore our in-depth reviews of leading software in our <a href="ai-video-and-content.html" class="text-indigo-600 font-semibold hover:underline">AI Video & Content Hub</a>.</p>
         </article>
     </main>
@@ -381,7 +399,7 @@ def generate_site():
         print(f"[!] {DATA_FILE} not found.")
         return
 
-    print("[*] Generating human-touch AI articles using Gemini for software database...")
+    print("[*] Generating long-form, human-touch AI articles using Gemini (1,000+ words target)...")
 
     # 1. Generate Individual Review Pages
     for item in software_list:
@@ -393,7 +411,7 @@ def generate_site():
         slug = name.lower().replace(".", "").replace(" ", "-") + "-review"
         filepath = os.path.join(OUTPUT_DIR, f"{slug}.html")
 
-        print(f"[-] Compiling review for {name}...")
+        print(f"[-] Compiling comprehensive review for {name}...")
         ai_article_body = generate_human_touch_article(name, category, price, item['features'])
 
         features_html = "".join([f"""
@@ -543,7 +561,7 @@ def generate_site():
     with open(guide_path, "w", encoding="utf-8") as f:
         f.write(guide_page)
 
-    print("[+] BUILD & AI ARTICLE GENERATION COMPLETE! All pages compiled successfully.")
+    print("[+] BUILD & LONG-FORM AI ARTICLE GENERATION COMPLETE! All pages compiled successfully.")
 
 if __name__ == "__main__":
     generate_site()

@@ -1,0 +1,36 @@
+name: Automated pSEO & AI Content Generator
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install google-generativeai requests beautifulsoup4
+
+      - name: Run Python pSEO Pipeline & AI Generator
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python seo_automation_pipeline.py
+
+      - name: Commit and Push Generated Pages
+        run: |
+          git config --global user.name "EcomStack Auto-Bot"
+          git config --global user.email "bot@ecomstack.local"
+          git add public/
+          git commit -m "Automated weekly pSEO & AI content generation [skip ci]" || echo "No changes to commit"
+          git push
