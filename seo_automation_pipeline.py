@@ -3,7 +3,6 @@ import os
 import google.generativeai as genai
 
 # Configure your Gemini API key 
-# (Set your environment variable: set GEMINI_API_KEY="your_api_key")
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY", "YOUR_API_KEY"))
 
 OUTPUT_DIR = "./public"
@@ -84,11 +83,13 @@ def get_navbar_html():
                 <div class="w-9 h-9 bg-indigo-600 text-white rounded-lg flex items-center justify-center font-bold text-lg shadow-md shadow-indigo-200">AI</div>
                 <span>EcomStack</span>
             </a>
-            <nav class="hidden md:flex items-center gap-8 font-semibold text-sm text-slate-600">
+            <nav class="hidden lg:flex items-center gap-6 font-semibold text-sm text-slate-600">
                 <a href="ai-video-and-content.html" class="hover:text-indigo-600 transition-colors">AI Video</a>
                 <a href="marketing-and-email.html" class="hover:text-indigo-600 transition-colors">Marketing</a>
                 <a href="seo-and-traffic.html" class="hover:text-indigo-600 transition-colors">SEO</a>
                 <a href="inventory-and-logistics.html" class="hover:text-indigo-600 transition-colors">Inventory</a>
+                <a href="index.html#comparisons" class="hover:text-indigo-600 transition-colors">Comparisons</a>
+                <a href="importance-of-ai-video-in-ecommerce.html" class="hover:text-indigo-600 transition-colors">Guides</a>
             </nav>
             <a href="index.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-full text-sm shadow-md shadow-indigo-200 transition-colors">Directory Hub</a>
         </div>
@@ -100,11 +101,13 @@ def get_footer_html():
     <footer class="bg-slate-900 text-slate-400 py-12 px-6 border-t border-slate-800 text-center text-sm">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div>&copy; 2026 EcomStack. All rights reserved. Professional E-commerce Software Directory.</div>
-            <div class="flex gap-6 justify-center">
+            <div class="flex gap-6 justify-center flex-wrap">
                 <a href="index.html" class="hover:text-white transition-colors">Directory Hub</a>
                 <a href="ai-video-and-content.html" class="hover:text-white transition-colors">AI Video</a>
                 <a href="marketing-and-email.html" class="hover:text-white transition-colors">Marketing</a>
                 <a href="seo-and-traffic.html" class="hover:text-white transition-colors">SEO</a>
+                <a href="inventory-and-logistics.html" class="hover:text-white transition-colors">Inventory</a>
+                <a href="importance-of-ai-video-in-ecommerce.html" class="hover:text-white transition-colors">Guides</a>
             </div>
         </div>
     </footer>
@@ -399,9 +402,8 @@ def generate_site():
         print(f"[!] {DATA_FILE} not found.")
         return
 
-    print("[*] Generating long-form, human-touch AI articles using Gemini (1,000+ words target)...")
+    print("[*] Generating long-form, human-touch AI articles using Gemini...")
 
-    # 1. Generate Individual Review Pages
     for item in software_list:
         name = item['name']
         category = item['category']
@@ -442,7 +444,6 @@ def generate_site():
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(page_content)
 
-    # 2. Generate Comparison Pages
     comparisons = [
         ("Higgsfield AI", "OpenArt AI"),
         ("Klaviyo", "Postscript"),
@@ -490,7 +491,6 @@ def generate_site():
         with open(comp_filepath, "w", encoding="utf-8") as f:
             f.write(comp_content)
 
-    # 3. Generate Category Archive Pages
     categories = {}
     for item in software_list:
         cat = item['category']
@@ -526,7 +526,6 @@ def generate_site():
         with open(cat_filepath, "w", encoding="utf-8") as f:
             f.write(cat_page)
 
-    # 4. Generate Homepage Hub
     index_cards_html = ""
     for item in software_list:
         slug = item['name'].lower().replace(".", "").replace(" ", "-") + "-review"
@@ -553,7 +552,6 @@ def generate_site():
     with open(os.path.join(OUTPUT_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_page)
 
-    # 5. Generate Strategic Editorial Guide
     guide_path = os.path.join(OUTPUT_DIR, "importance-of-ai-video-in-ecommerce.html")
     guide_page = (AI_VIDEO_GUIDE_TEMPLATE
                   .replace("__NAVBAR__", get_navbar_html())
@@ -561,7 +559,7 @@ def generate_site():
     with open(guide_path, "w", encoding="utf-8") as f:
         f.write(guide_page)
 
-    print("[+] BUILD & LONG-FORM AI ARTICLE GENERATION COMPLETE! All pages compiled successfully.")
+    print("[+] BUILD & NAVIGATION EXPANSION COMPLETE!")
 
 if __name__ == "__main__":
     generate_site()
