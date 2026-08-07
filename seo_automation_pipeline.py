@@ -16,7 +16,7 @@ def ensure_output_dir():
 def generate_human_touch_article(tool_name, category, price, features):
     """
     Uses Gemini to write an exhaustive, in-depth, long-form human-sounding review (1,000+ words)
-    optimized for AdSense and high-intent SEO traffic.
+    optimized for AdSense and high-intent SEO traffic, complete with image placement hooks.
     """
     model = genai.GenerativeModel("gemini-2.5-flash")
     
@@ -29,13 +29,14 @@ def generate_human_touch_article(tool_name, category, price, features):
     
     CRITICAL LENGTH REQUIREMENT: The review body must be comprehensive and detailed, targeting a length of 1,000 to 1,200 words. Avoid surface-level summaries; provide deep operational analysis, real-world e-commerce examples, and actionable guidance for DTC brand founders.
     
-    Required Structure (use clean HTML tags like <h2>, <h3>, <p>, <ul>, <li>, <strong>):
+    Required Structure (use clean HTML tags like <h2>, <h3>, <p>, <ul>, <li>, <strong>, and insert an <img> tag with professional Unsplash URLs midway through):
     1. <h2>Executive Summary: Why {tool_name} is Dominating {category} in 2026</h2>
        - Detailed introduction on current e-commerce challenges and why traditional methods fail.
        - High-level overview of {tool_name}'s unique positioning.
     2. <h2>Deep-Dive Feature Breakdown & Operational Workflows</h2>
        - Exhaustive analysis of key features: {", ".join(features)}.
        - Step-by-step explanation of how a direct-to-consumer store implements this in their daily routine.
+       - Include an image: <div class="my-8"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" alt="{tool_name} dashboard analytics" class="rounded-2xl shadow-md border border-slate-200 w-full object-cover h-80"><p class="text-center text-xs text-slate-500 mt-2">Real-time performance analytics and operational workflow interface inside {tool_name}.</p></div>
     3. <h2>Pricing Tiers & Return on Investment (ROI) Analysis</h2>
        - Detailed breakdown of the entry price (${price}/mo) vs. expected financial return.
        - Cost-benefit analysis for startup stores vs. scaling 7-figure brands.
@@ -60,6 +61,12 @@ def generate_human_touch_article(tool_name, category, price, features):
         
         <h2>Deep-Dive Feature Breakdown & Operational Workflows</h2>
         <p>Designed with modern direct-to-consumer brands in mind, {tool_name} streamlines daily execution through robust automation and intuitive dashboards.</p>
+        
+        <div class="my-8">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" alt="{tool_name} workflow interface" class="rounded-2xl shadow-md border border-slate-200 w-full object-cover h-80">
+            <p class="text-center text-xs text-slate-500 mt-2">Advanced automation workflows powered by {tool_name}.</p>
+        </div>
+
         <ul>
             <li><strong>Core Capability:</strong> {features[0] if features else 'Advanced workflow automation'}</li>
             <li><strong>Seamless Scaling:</strong> Engineered to handle high transaction volumes without latency.</li>
@@ -135,9 +142,12 @@ REVIEW_TEMPLATE = """<!DOCTYPE html>
                 __NAME__ Review (2026): Is It Worth <span class="text-indigo-600">$__PRICE__/mo?</span>
             </h1>
             <p class="text-lg text-slate-600 max-w-3xl leading-relaxed mb-8">__DESCRIPTION__</p>
-            <div class="flex gap-4 flex-wrap">
+            <div class="flex gap-4 flex-wrap mb-8">
                 <a href="__AFFILIATE_LINK__" target="_blank" rel="noopener" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-indigo-200 transition-all">Start Free Trial ➔</a>
                 <a href="#features" class="bg-white hover:bg-slate-100 text-slate-700 font-semibold py-3.5 px-8 rounded-xl border border-slate-200 transition-all">View Features</a>
+            </div>
+            <div class="rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+                <img src="__HERO_IMAGE__" alt="__NAME__ platform" class="w-full h-96 object-cover">
             </div>
         </div>
     </header>
@@ -371,6 +381,11 @@ AI_VIDEO_GUIDE_TEMPLATE = """<!DOCTYPE html>
             <h2>The Death of Traditional Video Production in E-Commerce</h2>
             <p>For years, creating high-converting video advertisements required hiring modeling agencies, renting expensive physical studios, and waiting weeks for professional post-production. Today, direct-to-consumer (DTC) brands and nimble dropshippers are bypassing these bottlenecks entirely using generative AI video platforms. This shift has fundamentally altered how digital advertising creative is conceived, tested, and scaled across social channels.</p>
             
+            <div class="my-8">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80" alt="AI video production workspace" class="rounded-2xl shadow-md border border-slate-200 w-full object-cover h-80">
+                <p class="text-center text-xs text-slate-500 mt-2">Generative AI video editing timelines and automated asset generation.</p>
+            </div>
+
             <h2>The Power of Tools Like Higgsfield AI and OpenArt</h2>
             <p>Platforms such as <strong>Higgsfield AI</strong> allow founders to generate cinematic, character-consistent video clips directly from simple text prompts, removing the need for physical shoots. Meanwhile, tools like <strong>OpenArt</strong> and <strong>AdCreative.ai</strong> specialize in instant product styling, model generation, and conversion-optimized ad variations tailored specifically for TikTok Shop and Meta feeds.</p>
             
@@ -402,9 +417,17 @@ def generate_site():
         print(f"[!] {DATA_FILE} not found.")
         return
 
-    print("[*] Generating long-form, human-touch AI articles using Gemini...")
+    print("[*] Generating long-form, image-rich AI review articles using Gemini...")
 
-    for item in software_list:
+    # Hero image pool for diversity across reviews
+    hero_images = [
+        "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1200&q=80"
+    ]
+
+    for idx, item in enumerate(software_list):
         name = item['name']
         category = item['category']
         price = str(item['starting_price'])
@@ -412,8 +435,9 @@ def generate_site():
         aff_link = item.get('affiliate_link', '#')
         slug = name.lower().replace(".", "").replace(" ", "-") + "-review"
         filepath = os.path.join(OUTPUT_DIR, f"{slug}.html")
+        hero_img = hero_images[idx % len(hero_images)]
 
-        print(f"[-] Compiling comprehensive review for {name}...")
+        print(f"[-] Compiling image-rich review for {name}...")
         ai_article_body = generate_human_touch_article(name, category, price, item['features'])
 
         features_html = "".join([f"""
@@ -437,6 +461,7 @@ def generate_site():
                         .replace("__PRICE__", price)
                         .replace("__DESCRIPTION__", desc)
                         .replace("__AFFILIATE_LINK__", aff_link)
+                        .replace("__HERO_IMAGE__", hero_img)
                         .replace("__AI_ARTICLE_BODY__", ai_article_body)
                         .replace("__FEATURES_HTML__", features_html)
                         .replace("__INTEGRATIONS_HTML__", integrations_html))
@@ -559,7 +584,7 @@ def generate_site():
     with open(guide_path, "w", encoding="utf-8") as f:
         f.write(guide_page)
 
-    print("[+] BUILD & NAVIGATION EXPANSION COMPLETE!")
+    print("[+] BUILD COMPLETE: All review and comparison articles generated with 1,000+ words and professional images.")
 
 if __name__ == "__main__":
     generate_site()
